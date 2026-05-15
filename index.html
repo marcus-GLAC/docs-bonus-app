@@ -1,11 +1,2209 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=glac_user_manual_v3_3.html">
-  <title>GLAC User Manual</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLAC Bonus Calculation Central — Hướng Dẫn Sử Dụng</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --primary: #1a56db;
+    --primary-light: #e8f0fe;
+    --primary-dark: #1240a8;
+    --accent: #0ea5e9;
+    --success: #16a34a;
+    --success-light: #dcfce7;
+    --warning: #d97706;
+    --warning-light: #fef3c7;
+    --danger: #dc2626;
+    --danger-light: #fee2e2;
+    --orange: #ea580c;
+    --orange-light: #ffedd5;
+    --text: #111827;
+    --text-secondary: #4b5563;
+    --text-muted: #9ca3af;
+    --border: #e5e7eb;
+    --border-strong: #d1d5db;
+    --bg: #ffffff;
+    --bg-soft: #f9fafb;
+    --bg-code: #f3f4f6;
+    --sidebar-w: 280px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+    background: var(--bg);
+  }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; min-height: 100vh; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: #0f172a;
+    color: #cbd5e1;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow: hidden;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-logo {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid #1e293b;
+  }
+  .sidebar-logo h1 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #f8fafc;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .sidebar-logo p {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 3px;
+  }
+
+  .sidebar-nav { padding: 16px 0; flex: 1; overflow-y: auto; }
+
+  .nav-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 12px 20px 4px;
+  }
+
+  .nav-item {
+    display: block;
+    padding: 7px 20px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 400;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+  }
+  .nav-item:hover {
+    color: #f1f5f9;
+    background: #1e293b;
+    border-left-color: var(--accent);
+  }
+  .nav-item.active {
+    color: #fff;
+    background: #1e293b;
+    border-left-color: var(--primary);
+    font-weight: 500;
+  }
+  .nav-item-sub {
+    padding-left: 32px;
+    font-size: 12.5px;
+    color: #64748b;
+  }
+  .nav-item-sub:hover { color: #cbd5e1; }
+
+  /* ── MAIN ── */
+  .main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    max-width: calc(100% - var(--sidebar-w));
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #1240a8 100%);
+    color: white;
+    padding: 56px 64px 52px;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #bfdbfe;
+    letter-spacing: 0.03em;
+  }
+  .hero h1 { font-size: 36px; font-weight: 700; line-height: 1.2; margin-bottom: 12px; }
+  .hero p { font-size: 16px; color: #bfdbfe; max-width: 600px; }
+  .hero-meta {
+    display: flex; gap: 24px; margin-top: 28px;
+    font-size: 13px; color: #93c5fd;
+  }
+  .hero-meta span { display: flex; align-items: center; gap: 6px; }
+
+  /* ── CONTENT ── */
+  .content { padding: 0 64px 80px; }
+
+  /* Comfortable reading line length */
+  .content .section { max-width: 820px; }
+
+  /* ── READING FOCUS: highlight active section ── */
+  .section { transition: opacity 0.35s ease; }
+  body.has-scrolled .section:not(.section-in-view) { opacity: 0.45; }
+  body.has-scrolled .section.section-in-view { opacity: 1; }
+
+  /* ── SECTION ── */
+  .section {
+    padding-top: 56px;
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+  }
+  .section:first-child { border-top: none; }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-top: 8px;
+  }
+  .section-num {
+    background: var(--primary);
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .section-title-group h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4px;
+  }
+  .section-title-group p {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 32px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+    display: flex; align-items: center; gap: 8px;
+  }
+  h3::before { content: ''; display: block; width: 4px; height: 18px; background: var(--primary); border-radius: 2px; flex-shrink: 0; }
+
+  h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 20px 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--primary-dark);
+  }
+
+  p { margin-bottom: 12px; color: var(--text-secondary); }
+
+  /* ── CALLOUTS ── */
+  .callout {
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .callout-content { flex: 1; color: var(--text); }
+  .callout-content strong { display: block; margin-bottom: 2px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .callout.info { background: var(--primary-light); border-left: 4px solid var(--primary); }
+  .callout.info .callout-icon { color: var(--primary); }
+  .callout.warning { background: var(--warning-light); border-left: 4px solid var(--warning); }
+  .callout.warning .callout-icon { color: var(--warning); }
+  .callout.danger { background: var(--danger-light); border-left: 4px solid var(--danger); }
+  .callout.danger .callout-icon { color: var(--danger); }
+  .callout.success { background: var(--success-light); border-left: 4px solid var(--success); }
+  .callout.success .callout-icon { color: var(--success); }
+
+  /* ── TABLES ── */
+  .table-wrap { overflow-x: auto; margin: 16px 0; border-radius: 10px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead { background: #f1f5f9; }
+  thead th {
+    padding: 11px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--border-strong);
+  }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #f8fafc; }
+  tbody td { padding: 10px 14px; color: var(--text-secondary); vertical-align: top; }
+  tbody td strong { color: var(--text); font-weight: 600; }
+  td.center, th.center { text-align: center; }
+
+  /* permission check icons */
+  .yes { color: var(--success); font-weight: 700; font-size: 16px; }
+  .no  { color: var(--danger);  font-weight: 700; font-size: 16px; }
+
+  /* ── STEPS ── */
+  .steps { list-style: none; counter-reset: steps; margin: 12px 0 16px; }
+  .steps li {
+    counter-increment: steps;
+    display: flex; gap: 14px; align-items: flex-start;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .steps li::before {
+    content: counter(steps);
+    background: var(--primary);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .steps li strong { color: var(--text); }
+
+  /* ── CODE ── */
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 12.5px;
+    color: #6d28d9;
+  }
+  pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 10px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.8;
+    overflow-x: auto;
+    margin: 16px 0;
+  }
+  pre code { background: none; border: none; color: inherit; padding: 0; font-size: inherit; }
+
+  /* ── BADGE/TAG ── */
+  .badge {
+    display: inline-block;
+    border-radius: 5px;
+    padding: 2px 8px;
+    font-size: 11.5px;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .badge-pending  { background: #fef3c7; color: #92400e; }
+  .badge-approved { background: #dcfce7; color: #14532d; }
+  .badge-rejected { background: #fee2e2; color: #7f1d1d; }
+  .badge-adjust   { background: #ffedd5; color: #7c2d12; }
+
+  /* ── ROLE CARDS ── */
+  .role-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 20px 0; }
+  .role-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .role-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .role-card.user::before    { background: #6366f1; }
+  .role-card.manager::before { background: #0ea5e9; }
+  .role-card.coo::before     { background: #f59e0b; }
+  .role-card.admin::before   { background: #ef4444; }
+  .role-card h4 { margin: 0 0 6px; font-size: 13px; }
+  .role-card ul { list-style: none; font-size: 13px; color: var(--text-secondary); }
+  .role-card ul li::before { content: '→ '; color: var(--text-muted); }
+
+  /* ── STATUS PILLS ── */
+  .status-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 16px 0; }
+  .status-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .status-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .status-dot.pending  { background: #f59e0b; }
+  .status-dot.approved { background: #16a34a; }
+  .status-dot.rejected { background: #dc2626; }
+  .status-dot.adjust   { background: #ea580c; }
+  .status-item h5 { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .status-item p  { font-size: 12.5px; color: var(--text-secondary); margin: 0; }
+
+  /* ── MODULE CARD ── */
+  .module-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 16px 0; }
+  .module-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex; gap: 14px; align-items: flex-start;
+    transition: box-shadow 0.2s;
+  }
+  .module-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+  .module-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+    background: var(--primary-light);
+  }
+  .module-card h4 { margin: 0 0 4px; font-size: 13.5px; font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--text); }
+  .module-card p  { font-size: 12.5px; margin: 0; color: var(--text-secondary); }
+  .module-card .route { font-size: 11px; color: var(--primary); font-family: 'JetBrains Mono', monospace; margin-top: 6px; display: block; }
+
+  /* ── FAQ ── */
+  .faq-item { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+  .faq-q {
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--bg-soft);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .faq-q::before { content: 'Q'; background: var(--primary); color: white; font-size: 11px; width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .faq-a {
+    padding: 14px 18px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+    line-height: 1.65;
+  }
+
+  /* ── PROCESS FLOW ── */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 20px 0;
+    position: relative;
+  }
+  .flow-step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    position: relative;
+  }
+  .flow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 40px;
+    width: 2px;
+    height: calc(100% - 8px);
+    background: var(--border-strong);
+  }
+  .flow-num {
+    width: 36px; height: 36px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+  .flow-body {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    flex: 1;
+    margin-bottom: 10px;
+  }
+  .flow-body h5 { font-size: 13.5px; font-weight: 600; margin-bottom: 4px; color: var(--text); }
+  .flow-body p  { font-size: 13px; margin: 0; color: var(--text-secondary); }
+
+  /* ── TECH SECTION ── */
+  .tech-section {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 48px 64px;
+    margin-top: 40px;
+  }
+  .tech-section h2 { font-size: 20px; color: #f8fafc; margin-bottom: 8px; }
+  .tech-section > p { color: #94a3b8; font-size: 14px; margin-bottom: 32px; }
+  .tech-section h3 {
+    font-size: 15px;
+    color: #93c5fd;
+    border-bottom-color: #1e3a5f;
+    margin-top: 28px;
+  }
+  .tech-section h3::before { background: #3b82f6; }
+  .tech-section p { color: #94a3b8; }
+  .tech-section .table-wrap { border-color: #1e293b; }
+  .tech-section thead { background: #1e293b; }
+  .tech-section thead th { color: #94a3b8; border-bottom-color: #334155; }
+  .tech-section tbody tr { border-bottom-color: #1e293b; }
+  .tech-section tbody tr:hover { background: #1a2744; }
+  .tech-section tbody td { color: #cbd5e1; }
+  .tech-section tbody td strong { color: #f1f5f9; }
+  .tech-section .callout.info { background: #1e293b; border-left-color: #3b82f6; }
+  .tech-section .callout.warning { background: #1e2a1a; border-left-color: #f59e0b; }
+  .tech-section .callout.danger { background: #2a1a1a; border-left-color: #ef4444; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 32px 64px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    .sidebar { display: none; }
+    .main { margin-left: 0; max-width: 100%; }
+  }
+
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; max-width: 100%; }
+    .content { padding: 0 24px 60px; }
+    .hero { padding: 36px 24px; }
+    .role-grid, .module-grid, .status-grid { grid-template-columns: 1fr; }
+    .tech-section { padding: 36px 24px; }
+  }
+
+  /* ── REWARD TEAM BLOCKS ── */
+  .reward-team-block {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 20px 0;
+    overflow: hidden;
+  }
+  .reward-team-header {
+    padding: 12px 18px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .rth-icon { font-size: 20px; flex-shrink: 0; }
+  .rth-name  { display: block; font-size: 14px; font-weight: 700; }
+  .rth-project { display: block; font-size: 11.5px; margin-top: 1px; opacity: 0.75; }
+  .rth-accounting { background: #eff6ff; color: #1e40af; border-bottom: 1px solid #bfdbfe; }
+  .rth-banking    { background: #f0fdf4; color: #166534; border-bottom: 1px solid #bbf7d0; }
+  .rth-it         { background: #faf5ff; color: #6b21a8; border-bottom: 1px solid #e9d5ff; }
+  .rth-qb         { background: #fff7ed; color: #9a3412; border-bottom: 1px solid #fed7aa; }
+  .rth-marketing  { background: #fdf2f8; color: #9d174d; border-bottom: 1px solid #fbcfe8; }
+
+  /* ── READING PROGRESS BAR ── */
+  #reading-progress {
+    position: fixed;
+    top: 0; left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #1a56db, #0ea5e9, #38bdf8);
+    z-index: 9999;
+    transition: width 0.1s linear;
+    border-radius: 0 2px 2px 0;
+  }
+  #reading-progress::after {
+    content: '';
+    position: absolute;
+    right: -1px; top: -1px;
+    width: 6px; height: 6px;
+    background: #38bdf8;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #38bdf8;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  #reading-progress.active::after { opacity: 1; }
+
+  /* ── ENHANCED NAV ACTIVE STATE ── */
+  .nav-item {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    border-radius: 0 6px 6px 0;
+    margin-right: 8px;
+  }
+  .nav-item.active {
+    color: #fff !important;
+    background: linear-gradient(90deg, rgba(26,86,219,0.25), rgba(26,86,219,0.12));
+    border-left-color: #60a5fa !important;
+    font-weight: 600;
+  }
+  .nav-item.active::after {
+    content: '';
+    position: absolute;
+    right: 8px; top: 50%;
+    transform: translateY(-50%);
+    width: 5px; height: 5px;
+    background: #60a5fa;
+    border-radius: 50%;
+    animation: pulse-dot 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+    50% { opacity: 0.5; transform: translateY(-50%) scale(0.6); }
+  }
+
+  /* ── CURRENT SECTION LABEL ── */
+  #sidebar-current {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 10px 12px;
+    background: #0a1628;
+    border-top: 1px solid rgba(14,165,233,0.15);
+    font-size: 11px;
+    color: #7dd3fc;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 46px;
+    transition: all 0.3s ease;
+  }
+  #sidebar-current .dot {
+    width: 7px; height: 7px;
+    background: #0ea5e9;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  #sidebar-current .label {
+    color: #475569;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 1px;
+  }
+  #sidebar-current .title {
+    font-weight: 500;
+    color: #e2e8f0;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 190px;
+  }
+
+  /* ── SECTION HIGHLIGHT ON ENTER ── */
+  .section-entering {
+    animation: section-fade-in 0.4s ease;
+  }
+  @keyframes section-fade-in {
+    from { opacity: 0.7; transform: translateY(4px); }
+    to   { opacity: 1;   transform: translateY(0);   }
+  }
+
+  /* ── SMOOTH SCROLL ── */
+  html { scroll-behavior: smooth; }
+</style>
 </head>
 <body>
-  <p>Redirecting to <a href="glac_user_manual_v3_3.html">GLAC User Manual</a>...</p>
+
+<div id="reading-progress"></div>
+
+<div class="layout">
+
+<!-- ══ SIDEBAR ══ -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <h1>GLAC Bonus Central</h1>
+    <p>Hướng dẫn sử dụng · v1.0</p>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section-label">Bắt đầu</div>
+    <a href="#intro"           class="nav-item">1. Giới thiệu hệ thống</a>
+    <a href="#access"          class="nav-item">2. Truy cập & Phân quyền</a>
+    <a href="#overview"        class="nav-item">3. Tổng quan tính năng</a>
+    <a href="#reward-conditions" class="nav-item">4. Điều kiện nhận thưởng</a>
+
+    <div class="nav-section-label">Hướng dẫn chi tiết</div>
+    <a href="#personal"   class="nav-item">4.1 Thưởng Cá Nhân</a>
+    <a href="#team"       class="nav-item">4.2 Thưởng Nhóm</a>
+    <a href="#company"    class="nav-item">4.3 Thưởng Công Ty</a>
+    <a href="#coo-adj"    class="nav-item">4.4 Duyệt Điều Chỉnh COO</a>
+    <a href="#config"     class="nav-item">4.5 Cấu Hình Quy Tắc</a>
+    <a href="#projects"   class="nav-item">4.6 Quản Lý Dự Án</a>
+    <a href="#payslip"    class="nav-item">4.7 Phiếu Lương</a>
+    <a href="#exchange"   class="nav-item">4.8 Tỷ Giá Ngoại Tệ</a>
+    <a href="#trigger"    class="nav-item">4.9 Tính Thưởng Thủ Công</a>
+    <a href="#export"     class="nav-item">4.10 Xuất Dữ Liệu</a>
+
+    <div class="nav-section-label">Vận hành</div>
+    <a href="#workflow"   class="nav-item">5. Quy trình nghiệp vụ</a>
+    <a href="#faq"        class="nav-item">6. Câu hỏi thường gặp</a>
+    <a href="#trouble"    class="nav-item">7. Xử lý sự cố</a>
+
+    <div class="nav-section-label">Tham khảo</div>
+    <a href="#appendix"   class="nav-item">8. Phụ lục & Thuật ngữ</a>
+  </div>
+
+  <div id="sidebar-current">
+    <div class="dot"></div>
+    <div>
+      <span class="label">Đang đọc</span>
+      <span class="title" id="current-title">Giới thiệu hệ thống</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<main class="main">
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">📘 Tài liệu nội bộ</div>
+  <h1>GLAC Bonus Calculation Central</h1>
+  <p>Hướng dẫn sử dụng hệ thống quản lý thưởng tích hợp Jira — dành cho toàn bộ nhân viên công ty GLAC.</p>
+  <div class="hero-meta">
+    <span>📄 Phiên bản 1.0</span>
+    <span>🗓️ Tháng 4 năm 2026</span>
+    <span>🌐 Tiếng Việt</span>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ════════════════════════════════ -->
+<!-- 1. GIỚI THIỆU -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="intro">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div class="section-title-group">
+      <h2>Giới Thiệu Hệ Thống</h2>
+      <p>GLAC Bonus Central là gì và tại sao bạn cần dùng nó?</p>
+    </div>
+  </div>
+
+  <p><strong>GLAC Bonus Calculation Central</strong> là hệ thống quản lý thưởng nhân viên được tích hợp trực tiếp vào Jira của công ty. Hệ thống tự động tính toán thưởng dựa trên lợi nhuận thực tế từ CRM, đưa qua quy trình phê duyệt, và tự động chi trả qua phiếu lương hàng tháng — không cần tính tay bằng bảng tính nữa.</p>
+
+  <div class="callout info">
+    <div class="callout-icon">💡</div>
+    <div class="callout-content">
+      <strong>Nói đơn giản</strong>
+      Bạn hoàn thành ticket → Hệ thống tự tính thưởng → COO duyệt → Thưởng vào phiếu lương cuối tháng. Mọi thứ đều minh bạch và có thể tra cứu bất cứ lúc nào.
+    </div>
+  </div>
+
+  <h3>Lợi ích chính</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Lợi ích</th><th>Chi tiết</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Tự động tính thưởng</strong></td><td>Hệ thống tự tính ngay khi ticket đổi trạng thái, dựa trên lợi nhuận từ CRM — không cần ai nhập tay.</td></tr>
+        <tr><td><strong>Quy trình duyệt chuẩn</strong></td><td>Mọi khoản thưởng đều qua xét duyệt trước khi chi trả, tránh sai sót.</td></tr>
+        <tr><td><strong>Minh bạch tài chính</strong></td><td>Bạn thấy rõ doanh thu, chi phí, lợi nhuận là bao nhiêu — cơ sở để tính thưởng của mình.</td></tr>
+        <tr><td><strong>Tự động vào phiếu lương</strong></td><td>Thưởng đã duyệt tự động xuất hiện trong phiếu lương tháng, không cần nhập thêm.</td></tr>
+        <tr><td><strong>Cảnh báo vượt ngưỡng</strong></td><td>Hệ thống tự gắn cờ khi thưởng vượt mức quy định — giúp COO kiểm soát dễ hơn.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 2. TRUY CẬP & PHÂN QUYỀN -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="access">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title-group">
+      <h2>Truy Cập &amp; Phân Quyền</h2>
+      <p>Cách đăng nhập và bạn được làm gì trong hệ thống?</p>
+    </div>
+  </div>
+
+  <h3>Cách truy cập</h3>
+  <ol class="steps">
+    <li>Đăng nhập <strong>Jira</strong> bằng tài khoản công ty (đăng nhập bình thường như mọi khi).</li>
+    <li>Trên thanh điều hướng Jira, tìm mục <strong>"Apps"</strong> → chọn <strong>"GLAC Bonus"</strong>.</li>
+    <li>Hệ thống tự nhận diện vai trò của bạn và hiển thị menu phù hợp.</li>
+  </ol>
+
+  <div class="callout info">
+    <div class="callout-icon">🔐</div>
+    <div class="callout-content"><strong>Không cần đăng nhập riêng</strong> — Hệ thống dùng chung tài khoản Jira của bạn, không cần nhớ thêm mật khẩu nào khác.</div>
+  </div>
+
+  <h3>Các vai trò trong hệ thống</h3>
+  <div class="role-grid">
+    <div class="role-card user">
+      <h4>👤 NHÂN VIÊN (User)</h4>
+      <ul>
+        <li>Xem thưởng của mình</li>
+        <li>Yêu cầu điều chỉnh thưởng</li>
+        <li>Xác nhận đã nhận thưởng</li>
+        <li>Xem phiếu lương cá nhân</li>
+      </ul>
+    </div>
+    <div class="role-card manager">
+      <h4>👥 QUẢN LÝ (Manager)</h4>
+      <ul>
+        <li>Tất cả quyền của Nhân viên</li>
+        <li>Xem thưởng toàn nhóm</li>
+        <li>Cập nhật tài chính ticket</li>
+        <li>Xem số tiền thực (không ẩn)</li>
+        <li>Kích hoạt thưởng thủ công</li>
+      </ul>
+    </div>
+    <div class="role-card coo">
+      <h4>🏢 COO</h4>
+      <ul>
+        <li>Tất cả quyền của Manager</li>
+        <li>Duyệt / từ chối điều chỉnh</li>
+        <li>Xem thưởng toàn công ty</li>
+        <li>Cấu hình quy tắc thưởng</li>
+        <li>Quản lý tỷ giá ngoại tệ</li>
+      </ul>
+    </div>
+    <div class="role-card admin">
+      <h4>⚙️ ADMIN</h4>
+      <ul>
+        <li>Tất cả quyền kỹ thuật</li>
+        <li>Xuất dữ liệu toàn hệ thống</li>
+        <li>Công cụ kỹ thuật / testing</li>
+        <li><em>Không xem được thưởng toàn công ty</em> (chỉ COO xem)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-content">
+      <strong>Lưu ý về vai trò ADMIN</strong>
+      Trong môi trường production, ADMIN chỉ có quyền kỹ thuật (xuất dữ liệu, công cụ hệ thống) — <strong>không</strong> được xem dữ liệu thưởng toàn công ty. Chỉ COO mới có quyền đó.
+    </div>
+  </div>
+
+  <h3>Bảng quyền chi tiết</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Tính năng</th>
+          <th class="center">Nhân viên</th>
+          <th class="center">Manager</th>
+          <th class="center">COO</th>
+          <th class="center">Admin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Xem thưởng cá nhân</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td></tr>
+        <tr><td>Xác nhận đã nhận thưởng</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td></tr>
+        <tr><td>Yêu cầu điều chỉnh thưởng</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td></tr>
+        <tr><td>Xem thưởng của nhóm</td><td class="center no">✗</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td></tr>
+        <tr><td>Cập nhật tài chính ticket</td><td class="center no">✗</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td></tr>
+        <tr><td>Xem số tiền thực (không ẩn)</td><td class="center no">✗</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td></tr>
+        <tr><td>Duyệt / từ chối điều chỉnh</td><td class="center no">✗</td><td class="center no">✗</td><td class="center yes">✓</td><td class="center no">✗</td></tr>
+        <tr><td><strong>Xem thưởng toàn công ty</strong></td><td class="center no">✗</td><td class="center no">✗</td><td class="center yes">✓</td><td class="center no">✗</td></tr>
+        <tr><td>Cấu hình quy tắc thưởng</td><td class="center no">✗</td><td class="center no">✗</td><td class="center yes">✓</td><td class="center no">✗</td></tr>
+        <tr><td>Quản lý tỷ giá ngoại tệ</td><td class="center no">✗</td><td class="center no">✗</td><td class="center yes">✓</td><td class="center no">✗</td></tr>
+        <tr><td>Xuất dữ liệu (Export)</td><td class="center no">✗</td><td class="center no">✗</td><td class="center no">✗</td><td class="center yes">✓</td></tr>
+        <tr><td>Công cụ kỹ thuật / testing</td><td class="center no">✗</td><td class="center no">✗</td><td class="center no">✗</td><td class="center yes">✓</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Dữ liệu nhạy cảm — Cách xem số tiền thực</h3>
+  <p>Mặc định, các con số tài chính đều được ẩn (<code>****</code>) để bảo mật. Nếu bạn là Manager trở lên và cần xem số thực:</p>
+  <ol class="steps">
+    <li>Nhấn nút <strong>"Hiển thị dữ liệu nhạy cảm"</strong> (biểu tượng mắt 👁️) trên trang.</li>
+    <li>Số tiền, tỷ lệ lợi nhuận, doanh thu, chi phí sẽ hiện ra đầy đủ.</li>
+    <li>Dữ liệu tự động ẩn lại khi bạn tải lại trang (refresh) — đây là tính năng bảo mật, không phải lỗi.</li>
+  </ol>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 3. TỔNG QUAN TÍNH NĂNG -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="overview">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div class="section-title-group">
+      <h2>Tổng Quan Tính Năng</h2>
+      <p>Hệ thống có những module nào và ai dùng gì?</p>
+    </div>
+  </div>
+
+  <div class="module-grid">
+    <div class="module-card">
+      <div class="module-icon">👤</div>
+      <div>
+        <h4>Thưởng Cá Nhân</h4>
+        <p>Xem lịch sử thưởng của bạn, yêu cầu điều chỉnh, xác nhận đã nhận.</p>
+        <span class="route">/personal · Tất cả mọi người</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-icon">👥</div>
+      <div>
+        <h4>Thưởng Nhóm</h4>
+        <p>Quản lý thưởng toàn nhóm, cập nhật tài chính ticket, kích hoạt thủ công.</p>
+        <span class="route">/team · Manager trở lên</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-icon">🏢</div>
+      <div>
+        <h4>Thưởng Toàn Công Ty</h4>
+        <p>Phân tích tổng thể toàn công ty theo tháng, quý, nhóm, nhân viên.</p>
+        <span class="route">/company · Chỉ COO</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-icon">✅</div>
+      <div>
+        <h4>Duyệt Điều Chỉnh COO</h4>
+        <p>Xem và xử lý tất cả yêu cầu điều chỉnh thưởng từ nhân viên và Manager.</p>
+        <span class="route">/coo-adjustment · COO</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-icon">⚙️</div>
+      <div>
+        <h4>Cấu Hình Quy Tắc</h4>
+        <p>Thiết lập quy tắc: ai nhận thưởng, bao nhiêu %, khi nào, từ dự án nào.</p>
+        <span class="route">/config · COO</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-icon">📁</div>
+      <div>
+        <h4>Quản Lý Dự Án</h4>
+        <p>Tạo và quản lý các nhóm dự án kinh doanh trong hệ thống.</p>
+        <span class="route">/projects · COO</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-icon">📄</div>
+      <div>
+        <h4>Phiếu Lương</h4>
+        <p>Phiếu lương hàng tháng — tự động tính lương + tổng hợp thưởng đã duyệt.</p>
+        <span class="route">Issue Panel / Service Desk · Tất cả (xem)</span>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-icon">📤</div>
+      <div>
+        <h4>Xuất Dữ Liệu</h4>
+        <p>Xuất toàn bộ dữ liệu ra Excel/CSV để báo cáo hoặc backup.</p>
+        <span class="route">/export · Admin</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 4. ĐIỀU KIỆN NHẬN THƯỞNG       -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="reward-conditions">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div class="section-title-group">
+      <h2>Bảng Điều Kiện Nhận Thưởng</h2>
+      <p>Loại công việc, vai trò và điều kiện cụ thể để được tính thưởng tự động</p>
+    </div>
+  </div>
+
+  <p>Hệ thống tự động tính thưởng khi ticket Jira chuyển sang đúng trạng thái <em>và</em> khớp với tất cả điều kiện bên dưới. Mỗi nhóm dịch vụ có quy tắc riêng — bạn chỉ cần hoàn thành công việc, hệ thống sẽ tự kiểm tra.</p>
+
+  <div class="callout info">
+    <div class="callout-icon">🔒</div>
+    <div class="callout-content"><strong>Số tiền thưởng không hiển thị ở đây</strong> — Chi tiết số tiền và % thưởng cụ thể được giữ kín theo chính sách công ty. Bạn sẽ thấy số tiền thực tế trong tab <strong>Thưởng Cá Nhân</strong> sau khi thưởng được tạo.</div>
+  </div>
+
+  <!-- ── NHÓM KẾ TOÁN ── -->
+  <div class="reward-team-block">
+    <div class="reward-team-header rth-accounting">
+      <span class="rth-icon">📊</span>
+      <div>
+        <span class="rth-name">Nhóm Kế Toán</span>
+        <span class="rth-project">Dự án: GLACCP</span>
+      </div>
+    </div>
+    <div class="table-wrap" style="margin:0;border-radius:0;border:none;border-top:1px solid var(--border);">
+      <table>
+        <thead><tr><th>Loại công việc</th><th>Vai trò được thưởng</th><th>Trạng thái kích hoạt</th><th>Điều kiện</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Monthly Bookkeeping</strong><br><span style="font-size:11.5px;color:var(--text-muted)">BCTC tháng — Đợt 1</span></td>
+            <td>Junior · Senior · Manager</td>
+            <td><code>Done</code></td>
+            <td>Khách hàng tại: Singapore, Hong Kong, hoặc Mỹ<br><em style="font-size:11.5px;color:var(--text-muted)">Tính gom theo tháng (PER_BLOCK)</em></td>
+          </tr>
+          <tr>
+            <td><strong>Annual Financial Report</strong><br><span style="font-size:11.5px;color:var(--text-muted)">BCTC tháng — Đợt 1 (qua Bookkeeping Prep)</span></td>
+            <td>Junior · Senior · Manager</td>
+            <td><code>Waiting for client's confirmation</code></td>
+            <td>Khách hàng tại: Singapore <em>hoặc</em> Singapore + Hong Kong + Mỹ</td>
+          </tr>
+          <tr>
+            <td><strong>Annual Financial Report</strong><br><span style="font-size:11.5px;color:var(--text-muted)">BCTC tháng — Đợt 2</span></td>
+            <td>Junior · Senior · Manager</td>
+            <td><code>Done</code></td>
+            <td>Khách hàng tại: Singapore, Hong Kong, hoặc Mỹ<br><em style="font-size:11.5px;color:var(--text-muted)">Một số rule tính gom theo tháng (PER_BLOCK)</em></td>
+          </tr>
+          <tr>
+            <td><strong>Final Monthly BCTC</strong><br><span style="font-size:11.5px;color:var(--text-muted)">BCTC tháng — Đợt cuối</span></td>
+            <td>Junior · Senior · Manager</td>
+            <td><code>Done</code></td>
+            <td>Khách hàng tại: Singapore</td>
+          </tr>
+          <tr>
+            <td><strong>Annual Financial Report</strong><br><span style="font-size:11.5px;color:var(--text-muted)">BCTC năm — Đợt 1</span></td>
+            <td>Junior · Senior · Manager</td>
+            <td><code>Waiting for client's confirmation</code></td>
+            <td>Khách hàng tại: Mỹ hoặc Hong Kong</td>
+          </tr>
+          <tr>
+            <td><strong>Annual Financial Report</strong><br><span style="font-size:11.5px;color:var(--text-muted)">BCTC năm — Đợt 2</span></td>
+            <td>Junior · Senior · Manager</td>
+            <td><code>Done</code></td>
+            <td>Khách hàng tại: Singapore, Mỹ, hoặc Hong Kong</td>
+          </tr>
+          <tr>
+            <td><strong>Audited Financial Statements</strong></td>
+            <td>Assignee</td>
+            <td><code>Done</code></td>
+            <td>Không có điều kiện thêm</td>
+          </tr>
+          <tr>
+            <td><strong>Employer's Return Filing</strong></td>
+            <td>Assignee</td>
+            <td><code>Done</code></td>
+            <td>Không có điều kiện thêm</td>
+          </tr>
+          <tr>
+            <td><strong>Profit Tax Return Filing</strong></td>
+            <td>Assignee</td>
+            <td><code>Done</code></td>
+            <td>Không có điều kiện thêm</td>
+          </tr>
+          <tr>
+            <td><strong>Annual Financial Report</strong><br><span style="font-size:11.5px;color:var(--text-muted)">Tax Return Filing</span></td>
+            <td>Assignee</td>
+            <td><code>Done</code></td>
+            <td>Khách hàng tại: Mỹ · Loại dịch vụ: Tax Return Filing</td>
+          </tr>
+          <tr>
+            <td><strong>Company Renewal</strong><br><span style="font-size:11.5px;color:var(--text-muted)">Gia hạn doanh nghiệp</span></td>
+            <td>Assignee</td>
+            <td><code>Renewal</code></td>
+            <td>Tất cả quốc gia được hỗ trợ</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── NHÓM NGÂN HÀNG ── -->
+  <div class="reward-team-block">
+    <div class="reward-team-header rth-banking">
+      <span class="rth-icon">🏦</span>
+      <div>
+        <span class="rth-name">Nhóm Mở Tài Khoản Ngân Hàng</span>
+        <span class="rth-project">Dự án: GLACCP · Issue: Bank opening &amp; subtask</span>
+      </div>
+    </div>
+    <div class="table-wrap" style="margin:0;border-radius:0;border:none;border-top:1px solid var(--border);">
+      <table>
+        <thead><tr><th>Vai trò</th><th>Trạng thái kích hoạt</th><th>Loại tài khoản</th><th>Loại ngân hàng</th><th>Quốc gia</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Junior</strong></td>
+            <td><code>Done</code></td>
+            <td>Doanh nghiệp (Corporate)</td>
+            <td>Online <em>hoặc</em> Physical</td>
+            <td>Tất cả quốc gia</td>
+          </tr>
+          <tr>
+            <td><strong>Senior</strong></td>
+            <td><code>Done</code></td>
+            <td>Doanh nghiệp (Corporate)</td>
+            <td>Online <em>hoặc</em> Physical</td>
+            <td>Tất cả quốc gia</td>
+          </tr>
+          <tr>
+            <td><strong>Senior</strong></td>
+            <td><code>Done</code></td>
+            <td>Cá nhân (Personal)</td>
+            <td>Online &amp; Physical</td>
+            <td>Tất cả quốc gia</td>
+          </tr>
+          <tr>
+            <td><strong>Manager</strong></td>
+            <td><code>Done</code></td>
+            <td>Doanh nghiệp (Corporate)</td>
+            <td>Online <em>hoặc</em> Physical</td>
+            <td>Singapore</td>
+          </tr>
+          <tr>
+            <td><strong>Manager</strong></td>
+            <td><code>Done</code></td>
+            <td>Doanh nghiệp (Corporate)</td>
+            <td>Online <em>hoặc</em> Physical</td>
+            <td>Tất cả quốc gia <em>(trừ Singapore)</em></td>
+          </tr>
+          <tr>
+            <td><strong>Manager</strong></td>
+            <td><code>Done</code></td>
+            <td>Cá nhân (Personal)</td>
+            <td>Online &amp; Physical</td>
+            <td>Tất cả quốc gia</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── NHÓM IT ── -->
+  <div class="reward-team-block">
+    <div class="reward-team-header rth-it">
+      <span class="rth-icon">💻</span>
+      <div>
+        <span class="rth-name">Nhóm IT</span>
+        <span class="rth-project">Dự án: GLACCP · Issue: IT Service, IT service renewal, IT technical support</span>
+      </div>
+    </div>
+    <div class="table-wrap" style="margin:0;border-radius:0;border:none;border-top:1px solid var(--border);">
+      <table>
+        <thead><tr><th>Loại dịch vụ IT</th><th>Vai trò được thưởng</th><th>Trạng thái kích hoạt</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Domain service</strong></td><td>IT HOD · Assignee</td><td><code>Done</code></td></tr>
+          <tr><td><strong>Hosting service</strong></td><td>IT HOD · Assignee</td><td><code>Done</code></td></tr>
+          <tr><td><strong>Email Hosting service</strong></td><td>IT HOD</td><td><code>Done</code></td></tr>
+          <tr><td><strong>Custom website package</strong></td><td>IT HOD · Assignee</td><td><code>Done</code></td></tr>
+          <tr><td><strong>Website package 1 / 2 / 3</strong></td><td>IT HOD · Assignee</td><td><code>Done</code></td></tr>
+          <tr><td><strong>US &amp; UK virtual phone number</strong></td><td>IT HOD · Assignee</td><td><code>Done</code></td></tr>
+          <tr><td><strong>Official SIM cards</strong> <span style="font-size:11.5px;color:var(--text-muted)">(Hong Kong, Singapore)</span></td><td>IT HOD</td><td><code>Done</code></td></tr>
+          <tr><td><strong>Website Administration</strong></td><td>Assignee</td><td><code>Done</code></td></tr>
+          <tr><td><strong>Technical support</strong></td><td>Assignee</td><td><code>Done</code></td></tr>
+          <tr><td><strong>Renewal — Domain, Hosting, Email, DNS, SSL</strong></td><td>IT HOD · Senior</td><td><code>Done</code></td></tr>
+          <tr><td><strong>Renewal — US &amp; UK phone number</strong></td><td>IT HOD</td><td><code>Done</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── NHÓM QUICKBOOKS ── -->
+  <div class="reward-team-block">
+    <div class="reward-team-header rth-qb">
+      <span class="rth-icon">📒</span>
+      <div>
+        <span class="rth-name">Nhóm QuickBooks</span>
+        <span class="rth-project">Dự án: QO</span>
+      </div>
+    </div>
+    <div class="table-wrap" style="margin:0;border-radius:0;border:none;border-top:1px solid var(--border);">
+      <table>
+        <thead><tr><th>Loại công việc</th><th>Vai trò được thưởng</th><th>Trạng thái kích hoạt</th><th>Điều kiện</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>QuickBooks Setup Service</strong></td>
+            <td>Assignee · Senior · Manager</td>
+            <td><code>Closed</code></td>
+            <td>Không có điều kiện thêm</td>
+          </tr>
+          <tr>
+            <td><strong>QuickBooks eLearning</strong></td>
+            <td>Assignee · Senior</td>
+            <td><code>Closed</code></td>
+            <td>Không có điều kiện thêm</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── NHÓM MARKETING / DUNS ── -->
+  <div class="reward-team-block">
+    <div class="reward-team-header rth-marketing">
+      <span class="rth-icon">📣</span>
+      <div>
+        <span class="rth-name">Nhóm Marketing / DUNS</span>
+        <span class="rth-project">Dự án: GLACCS · Issue: DUNS service</span>
+      </div>
+    </div>
+    <div class="table-wrap" style="margin:0;border-radius:0;border:none;border-top:1px solid var(--border);">
+      <table>
+        <thead><tr><th>Loại DUNS</th><th>Vai trò được thưởng</th><th>Trạng thái kích hoạt</th><th>Điều kiện bắt buộc</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>DUNS Basic</strong></td>
+            <td>Assignee · Manager</td>
+            <td><code>Done</code></td>
+            <td rowspan="4" style="vertical-align:middle;">
+              <span style="display:inline-flex;align-items:center;gap:6px;background:#fef3c7;color:#92400e;border-radius:6px;padding:6px 10px;font-size:12.5px;font-weight:600;">
+                🌐 Khách hàng là người nước ngoài
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>DUNS Unit</strong></td>
+            <td>Assignee · Manager</td>
+            <td><code>Done</code></td>
+          </tr>
+          <tr>
+            <td><strong>DUNS service (bất kỳ)</strong></td>
+            <td>Main Marketing Contributor</td>
+            <td><code>Done</code></td>
+          </tr>
+          <tr>
+            <td><strong>DUNS service (bất kỳ)</strong></td>
+            <td>Supporting Marketing Contributor</td>
+            <td><code>Done</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout warning" style="margin-top:24px;">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-content">Nếu bạn hoàn thành ticket nhưng không thấy thưởng được tạo — kiểm tra lại các trường trên ticket (quốc gia, loại tài khoản, loại dịch vụ) xem có khớp với bảng trên không. Nếu đã khớp mà vẫn không có, nhờ Manager dùng tính năng <strong>Kích hoạt tính thưởng thủ công</strong> (mục 4.9).</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 4.1 THƯỞNG CÁ NHÂN -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="personal">
+  <div class="section-header">
+    <div class="section-num">4.1</div>
+    <div class="section-title-group">
+      <h2>Module Thưởng Cá Nhân</h2>
+      <p>Dành cho: Tất cả nhân viên · Đường dẫn: /personal</p>
+    </div>
+  </div>
+
+  <p>Đây là nơi bạn xem toàn bộ thưởng của mình — từ khoản thưởng mới nhất chưa duyệt đến lịch sử đã chi trả. Khi mở ứng dụng, đây là trang bạn thấy đầu tiên.</p>
+
+  <h3>Thông tin hiển thị trong danh sách thưởng</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Cột</th><th>Ý nghĩa</th><th>Ví dụ</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Ticket ID</strong></td><td>Mã ticket Jira tạo ra khoản thưởng</td><td>SYS-123</td></tr>
+        <tr><td><strong>Dự án</strong></td><td>Tên dự án Jira</td><td>SYS, HM</td></tr>
+        <tr><td><strong>Loại Issue</strong></td><td>Phân loại ticket</td><td>Task, Bug, Service Request</td></tr>
+        <tr><td><strong>Vai trò</strong></td><td>Vai trò của bạn trên ticket</td><td>Assignee, Developer, QA</td></tr>
+        <tr><td><strong>Kỳ thưởng</strong></td><td>Tháng/năm của khoản thưởng</td><td>2025-04</td></tr>
+        <tr><td><strong>Loại thưởng</strong></td><td>Cách tính thưởng</td><td>% Lợi nhuận / Thưởng cố định</td></tr>
+        <tr><td><strong>Số tiền</strong></td><td>Số tiền thực nhận (mặc định ẩn)</td><td>7,000,000 VND</td></tr>
+        <tr><td><strong>Trạng thái</strong></td><td>Khoản thưởng đang ở giai đoạn nào</td><td>Pending / Approved / Rejected</td></tr>
+        <tr><td><strong>Tuân thủ chính sách</strong></td><td>Thưởng có nằm trong mức quy định không</td><td>Trong phạm vi / Ngoài phạm vi</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Ý nghĩa các trạng thái thưởng</h3>
+  <div class="status-grid">
+    <div class="status-item">
+      <div class="status-dot pending"></div>
+      <div>
+        <h5><span class="badge badge-pending">Pending</span> — Chờ duyệt</h5>
+        <p>Vừa được tạo, chưa có ai duyệt. Bạn chỉ cần chờ — Manager hoặc COO sẽ xem xét.</p>
+      </div>
+    </div>
+    <div class="status-item">
+      <div class="status-dot approved"></div>
+      <div>
+        <h5><span class="badge badge-approved">Approved</span> — Đã duyệt</h5>
+        <p>Thưởng đã được duyệt hợp lệ và sẽ xuất hiện trong phiếu lương tháng này.</p>
+      </div>
+    </div>
+    <div class="status-item">
+      <div class="status-dot rejected"></div>
+      <div>
+        <h5><span class="badge badge-rejected">Rejected</span> — Từ chối</h5>
+        <p>Khoản thưởng bị từ chối. Xem lý do trong lịch sử phê duyệt → liên hệ Manager nếu cần.</p>
+      </div>
+    </div>
+    <div class="status-item">
+      <div class="status-dot adjust"></div>
+      <div>
+        <h5><span class="badge badge-adjust">Request Adjust</span> — Đang điều chỉnh</h5>
+        <p>Manager đã gửi yêu cầu điều chỉnh khoản thưởng này lên COO. Bạn có thể theo dõi kết quả trong lịch sử phê duyệt.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Những gì bạn có thể làm</h3>
+
+  <h4>A. Xác nhận đã nhận thưởng</h4>
+  <p>Sau khi thưởng được chi trả vào tài khoản của bạn, hãy xác nhận để hoàn tất vòng đời khoản thưởng.</p>
+  <ol class="steps">
+    <li>Tìm khoản thưởng có trạng thái <span class="badge badge-approved">Approved</span>.</li>
+    <li>Nhấn nút <strong>"Xác nhận đã nhận"</strong> (biểu tượng ✔️).</li>
+    <li>Xác nhận trong hộp thoại. Khoản thưởng được đánh dấu đã thanh toán.</li>
+  </ol>
+  <div class="callout danger">
+    <div class="callout-icon">🚫</div>
+    <div class="callout-content"><strong>Không thể hoàn tác.</strong> Chỉ nhấn xác nhận khi bạn thực sự đã nhận được tiền.</div>
+  </div>
+
+  <h4>B. Xem lịch sử phê duyệt</h4>
+  <p>Nhấn vào dòng thưởng bất kỳ → Panel chi tiết mở ra → Tab <strong>"Lịch sử"</strong> hiển thị toàn bộ: ai duyệt, lúc nào, ghi chú gì.</p>
+
+  <h4>C. Xuất Excel</h4>
+  <p>Nhấn nút <strong>"Xuất Excel"</strong> phía trên bảng → File tải xuống gồm danh sách thưởng + thống kê tổng hợp.</p>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 4.2 THƯỞNG NHÓM -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="team">
+  <div class="section-header">
+    <div class="section-num">4.2</div>
+    <div class="section-title-group">
+      <h2>Module Thưởng Nhóm</h2>
+      <p>Dành cho: Manager trở lên · Đường dẫn: /team</p>
+    </div>
+  </div>
+
+  <p>Cho phép Manager xem và quản lý thưởng của toàn bộ thành viên trong nhóm mình phụ trách.</p>
+
+  <h3>Ba tab chính</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tab</th><th>Nội dung</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Tất cả thưởng</strong></td><td>Toàn bộ thưởng của mọi thành viên — tương tự trang Cá Nhân nhưng có thêm cột "Nhân viên" và bộ lọc theo thành viên.</td></tr>
+        <tr><td><strong>Theo Dự Án</strong></td><td>Gom nhóm thưởng theo dự án: tổng tiền, số ticket, tỷ lệ duyệt/từ chối.</td></tr>
+        <tr><td><strong>Thống Kê Nhóm</strong></td><td>Dashboard tổng quan: tổng thưởng, số thành viên, tỷ lệ hoàn thành, biểu đồ phân phối, top nhân viên.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Cập nhật tài chính ticket</h3>
+  <p>Dùng khi doanh thu hoặc chi phí của một ticket cần cập nhật — ví dụ: có hóa đơn bổ sung từ khách hàng.</p>
+  <ol class="steps">
+    <li>Tìm ticket cần cập nhật trong danh sách.</li>
+    <li>Nhấn biểu tượng <strong>"Cập nhật tài chính"</strong> (icon đồng tiền 💰).</li>
+    <li>Nhập <strong>Doanh thu mới</strong> và <strong>Chi phí mới</strong>.</li>
+    <li>Nhấn <strong>"Lưu &amp; Tính lại"</strong>. Hệ thống tự cập nhật lợi nhuận và tính lại toàn bộ thưởng liên quan.</li>
+  </ol>
+  <div class="callout warning">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-content">Hành động này ảnh hưởng đến <strong>tất cả nhân viên</strong> có thưởng từ ticket này. Kiểm tra kỹ số liệu trước khi xác nhận.</div>
+  </div>
+
+  <h3>Kích hoạt thưởng thủ công (Bulk Trigger)</h3>
+  <p>Dành cho ticket chưa được tính thưởng tự động (xem thêm tại mục 4.9).</p>
+  <ol class="steps">
+    <li>Chọn một hoặc nhiều ticket (checkbox).</li>
+    <li>Nhấn <strong>"Kích hoạt thưởng"</strong> → Chọn trạng thái trigger.</li>
+    <li>Nhấn <strong>"Xem trước"</strong> để kiểm tra số tiền sẽ được tạo.</li>
+    <li>Nhập lý do → Nhấn <strong>"Xác nhận"</strong>.</li>
+  </ol>
+
+  <h3>Yêu cầu điều chỉnh thưởng</h3>
+  <p>Manager có thể gửi yêu cầu điều chỉnh cho bất kỳ khoản thưởng nào của thành viên trong nhóm — ví dụ khi số liệu tài chính từ CRM cần được cập nhật thủ công, hoặc khi có sai lệch cần làm rõ trước khi COO phê duyệt.</p>
+
+  <div class="callout info">
+    <div class="callout-icon">ℹ️</div>
+    <div class="callout-content"><strong>Tính năng của Manager</strong> — Nhân viên thông thường <em>không thể</em> tự gửi yêu cầu điều chỉnh từ trang Thưởng Cá Nhân. Chỉ Manager (hoặc COO) mới có quyền khởi tạo điều chỉnh. Nhân viên sẽ thấy trạng thái <span class="badge badge-adjust">Request Adjust</span> trong danh sách thưởng của mình khi yêu cầu đang chờ xử lý.</div>
+  </div>
+
+  <ol class="steps">
+    <li>Tìm khoản thưởng cần điều chỉnh trong tab <strong>"Tất cả thưởng"</strong> của nhóm.</li>
+    <li>Nhấn nút <strong>"Yêu cầu điều chỉnh"</strong> (biểu tượng bút ✏️) trên dòng thưởng tương ứng.</li>
+    <li>Chọn <strong>Loại điều chỉnh</strong>: Theo % hoặc theo số tiền cụ thể. Nhập giá trị đề xuất.</li>
+    <li>Điền <strong>Lý do</strong> rõ ràng — ví dụ: <em>"Có hóa đơn bổ sung INV-002 chưa được tính vào lợi nhuận"</em>.</li>
+    <li>Nhấn <strong>"Gửi yêu cầu"</strong>. Trạng thái chuyển sang <span class="badge badge-adjust">Request Adjust</span> và yêu cầu được chuyển đến COO.</li>
+  </ol>
+
+  <div class="callout warning">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-content">Sau khi gửi, yêu cầu <strong>không thể chỉnh sửa</strong>. Nếu cần thay đổi, COO phải từ chối yêu cầu cũ — sau đó Manager gửi lại yêu cầu mới với nội dung đã cập nhật.</div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Bước tiếp theo</th><th>Ai xử lý</th><th>Kết quả</th></tr></thead>
+      <tbody>
+        <tr><td>Yêu cầu được gửi lên</td><td>Hệ thống tự động</td><td>Trạng thái → <span class="badge badge-adjust">Request Adjust</span></td></tr>
+        <tr><td>COO xem xét và duyệt</td><td>COO (mục 4.4)</td><td>Trạng thái → <span class="badge badge-approved">Approved</span> với số tiền mới</td></tr>
+        <tr><td>COO từ chối yêu cầu</td><td>COO (mục 4.4)</td><td>Trạng thái → <span class="badge badge-rejected">Rejected</span>, giữ nguyên thưởng cũ</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 4.3 THƯỞNG CÔNG TY -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="company">
+  <div class="section-header">
+    <div class="section-num">4.3</div>
+    <div class="section-title-group">
+      <h2>Module Thưởng Toàn Công Ty</h2>
+      <p>Dành cho: <strong>Chỉ COO</strong> · Đường dẫn: /company</p>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-icon">🏢</div>
+    <div class="callout-content">Module này cung cấp cái nhìn toàn diện về thưởng của toàn công ty, hỗ trợ COO ra quyết định chiến lược về chính sách thưởng. <strong>Admin không có quyền truy cập module này.</strong></div>
+  </div>
+
+  <h3>Các chỉ số tổng quan (KPI)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Chỉ số</th><th>Ý nghĩa</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Tổng thưởng đã chi trả</strong></td><td>Tổng tiền thưởng trạng thái Approved và đã đánh dấu is_paid</td></tr>
+        <tr><td><strong>Thưởng đang chờ duyệt</strong></td><td>Tổng tiền thưởng trạng thái Pending</td></tr>
+        <tr><td><strong>Số nhân viên nhận thưởng</strong></td><td>Số người có ít nhất 1 khoản thưởng Approved</td></tr>
+        <tr><td><strong>Thưởng trung bình/người</strong></td><td>Tổng thưởng ÷ số nhân viên nhận thưởng</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Biểu đồ phân tích</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Biểu đồ</th><th>Mô tả</th><th>Lọc theo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Phân phối theo nhân viên</strong></td><td>Mỗi cột là 1 nhân viên — thấy ngay ai nhận nhiều/ít thưởng nhất</td><td>Tháng, Quý</td></tr>
+        <tr><td><strong>Xu hướng theo tháng</strong></td><td>Tổng thưởng mỗi tháng — theo dõi xu hướng tăng/giảm</td><td>Quý, Năm</td></tr>
+        <tr><td><strong>Hiệu suất nhóm</strong></td><td>So sánh tổng thưởng giữa các nhóm</td><td>Tháng, Quý</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 4.4 DUYỆT ĐIỀU CHỈNH COO -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="coo-adj">
+  <div class="section-header">
+    <div class="section-num">4.4</div>
+    <div class="section-title-group">
+      <h2>Module Duyệt Điều Chỉnh COO</h2>
+      <p>Dành cho: COO · Đường dẫn: /coo-adjustment</p>
+    </div>
+  </div>
+
+  <p>Nơi COO xem xét và xử lý toàn bộ yêu cầu điều chỉnh thưởng từ nhân viên và Manager.</p>
+
+  <h3>Thông tin trong mỗi yêu cầu</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Thông tin</th><th>Mô tả</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Nhân viên</strong></td><td>Người gửi yêu cầu</td></tr>
+        <tr><td><strong>Ticket</strong></td><td>Mã ticket liên quan</td></tr>
+        <tr><td><strong>Thưởng hiện tại</strong></td><td>Số tiền thưởng đang áp dụng</td></tr>
+        <tr><td><strong>Đề xuất điều chỉnh</strong></td><td>Số tiền / % mà nhân viên đề xuất</td></tr>
+        <tr><td><strong>Lý do</strong></td><td>Giải thích từ phía nhân viên</td></tr>
+        <tr><td><strong>Ngày gửi</strong></td><td>Thời điểm gửi yêu cầu</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Cách duyệt yêu cầu</h3>
+
+  <h4>Duyệt (có thể nhập số tiền khác với đề xuất)</h4>
+  <ol class="steps">
+    <li>Nhấn <strong>"Duyệt"</strong> trên dòng yêu cầu.</li>
+    <li>Nhập <strong>số tiền thưởng mới</strong> — có thể giữ nguyên hoặc khác với đề xuất của nhân viên.</li>
+    <li>Nhập <strong>ghi chú</strong> nếu cần (ví dụ: <em>"Đã xác nhận với Finance, lợi nhuận thực 80M"</em>).</li>
+    <li>Nhấn <strong>"Xác nhận duyệt"</strong>. Thưởng được cập nhật → trạng thái <span class="badge badge-approved">Approved</span>.</li>
+  </ol>
+
+  <h4>Từ chối</h4>
+  <ol class="steps">
+    <li>Nhấn <strong>"Từ chối"</strong> trên dòng yêu cầu.</li>
+    <li>Nhập <strong>lý do từ chối</strong> (bắt buộc — nhân viên sẽ thấy lý do này).</li>
+    <li>Nhấn <strong>"Xác nhận từ chối"</strong>. Thưởng giữ nguyên số cũ → trạng thái <span class="badge badge-rejected">Rejected</span>.</li>
+  </ol>
+
+  <div class="callout info">
+    <div class="callout-icon">📋</div>
+    <div class="callout-content">Tab <strong>"Đã xử lý"</strong> cho phép xem lại toàn bộ lịch sử: ai xử lý, lúc nào, số tiền trước/sau điều chỉnh, ghi chú đi kèm.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 4.5 CẤU HÌNH QUY TẮC -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="config">
+  <div class="section-header">
+    <div class="section-num">4.5</div>
+    <div class="section-title-group">
+      <h2>Module Cấu Hình Quy Tắc Thưởng</h2>
+      <p>Dành cho: COO · Đường dẫn: /config</p>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-icon">⚙️</div>
+    <div class="callout-content">Đây là <strong>trái tim của hệ thống</strong> — mọi khoản thưởng đều được tạo ra dựa trên các quy tắc được định nghĩa ở đây. Một quy tắc xác định: <em>"Khi nào, ai, nhận bao nhiêu thưởng từ ticket nào"</em>.</div>
+  </div>
+
+  <h3>Ví dụ về một quy tắc thưởng</h3>
+  <blockquote style="background:var(--primary-light);border-left:4px solid var(--primary);padding:14px 18px;border-radius:0 8px 8px 0;font-style:italic;color:var(--text);margin:16px 0;font-size:14px;">
+    "Với mọi ticket loại <strong>Development</strong> trong dự án <strong>SYS</strong>, khi chuyển sang trạng thái <strong>Done</strong>, người <strong>Assignee</strong> nhận <strong>10% lợi nhuận</strong> bằng <strong>VND</strong>."
+  </blockquote>
+
+  <h3>Các trường cấu hình</h3>
+
+  <h4>Nhóm 1 — Xác định đối tượng áp dụng</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Trường</th><th>Mô tả</th><th>Ví dụ</th><th class="center">Bắt buộc</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Dự án</strong></td><td>Mã viết tắt của dự án Jira</td><td><code>SYS</code>, <code>HM</code></td><td class="center">✅</td></tr>
+        <tr><td><strong>Loại Issue</strong></td><td>Phân loại ticket</td><td><code>Task</code>, <code>Bug</code></td><td class="center">✅</td></tr>
+        <tr><td><strong>Vai trò</strong></td><td>Vai trò nào sẽ nhận thưởng</td><td><code>Assignee</code>, <code>Developer</code></td><td class="center">✅</td></tr>
+        <tr><td><strong>Trường Jira</strong></td><td>Field Jira chứa thông tin nhân viên tương ứng</td><td><code>assignee</code></td><td class="center">✅</td></tr>
+        <tr><td><strong>Trạng thái kích hoạt</strong></td><td>Khi ticket chuyển sang trạng thái này thì tạo thưởng</td><td><code>In Progress</code>, <code>Done</code></td><td class="center">✅</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Nhóm 2 — Xác định mức thưởng</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Trường</th><th>Mô tả</th><th>Ví dụ</th><th class="center">Bắt buộc</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Loại thưởng</strong></td><td>Tính theo % lợi nhuận hay số tiền cố định</td><td>% of profit / Base Reward</td><td class="center">✅</td></tr>
+        <tr><td><strong>Tỷ lệ %</strong></td><td>Phần trăm lợi nhuận (nếu chọn %)</td><td><code>10</code> = 10%</td><td class="center">Nếu dùng %</td></tr>
+        <tr><td><strong>Số tiền cố định</strong></td><td>Số tiền cụ thể (nếu chọn fixed)</td><td><code>2000000</code> VND</td><td class="center">Nếu dùng fixed</td></tr>
+        <tr><td><strong>Đơn vị tiền tệ</strong></td><td>VND / USD / SGD</td><td><code>VND</code></td><td class="center">✅</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Tạo quy tắc mới</h3>
+  <ol class="steps">
+    <li>Nhấn <strong>"+ Thêm quy tắc"</strong>.</li>
+    <li>Điền lần lượt: Dự án → Loại Issue → Vai trò → Trường Jira → Trạng thái kích hoạt.</li>
+    <li>Chọn loại thưởng và nhập tỷ lệ hoặc số tiền.</li>
+    <li>Chọn đơn vị tiền tệ.</li>
+    <li>(Tùy chọn) Cấu hình phạm vi kỳ tính và điều kiện bổ sung nếu cần.</li>
+    <li>Nhấn <strong>"Lưu quy tắc"</strong>.</li>
+  </ol>
+
+  <div class="callout warning">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-content">Mỗi tổ hợp <strong>(Dự án + Loại Issue + Vai trò + Trạng thái)</strong> chỉ được có <strong>một quy tắc đang active</strong>. Hệ thống sẽ báo lỗi nếu tạo trùng.</div>
+  </div>
+
+  <h3>Tắt / Bật quy tắc</h3>
+  <p>Toggle <strong>"Hoạt động"</strong> trên mỗi dòng quy tắc. Quy tắc bị tắt không áp dụng cho ticket mới — nhưng dữ liệu thưởng đã tạo từ trước <strong>không bị xóa</strong>.</p>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 4.6 QUẢN LÝ DỰ ÁN -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="projects">
+  <div class="section-header">
+    <div class="section-num">4.6</div>
+    <div class="section-title-group">
+      <h2>Module Quản Lý Dự Án Thưởng</h2>
+      <p>Dành cho: COO · Đường dẫn: /projects</p>
+    </div>
+  </div>
+
+  <p>Tạo và quản lý các nhóm dự án kinh doanh — giúp tổ chức thưởng theo đơn vị kinh doanh, không chỉ theo dự án Jira.</p>
+
+  <h3>Tạo dự án mới</h3>
+  <ol class="steps">
+    <li>Nhấn <strong>"+ Thêm dự án"</strong>.</li>
+    <li>Nhập tên dự án đầy đủ và mã Jira tương ứng.</li>
+    <li>Nhấn <strong>"Lưu"</strong>.</li>
+  </ol>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 4.7 PHIẾU LƯƠNG -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="payslip">
+  <div class="section-header">
+    <div class="section-num">4.7</div>
+    <div class="section-title-group">
+      <h2>Module Phiếu Lương (Payslip)</h2>
+      <p>Dành cho: Tất cả nhân viên · Nhân viên submit qua Service Desk · Dự án HM trên Jira</p>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-icon">📄</div>
+    <div class="callout-content">Module Phiếu Lương áp dụng cho dự án <strong>HM</strong> (Human Management) trên Jira, với loại ticket <strong>"Monthly Salary"</strong>. Nhân viên tự submit ticket qua Service Desk — hệ thống tự tính và tạo phiếu lương nháp sau đó.</div>
+  </div>
+
+  <h3>Cách hệ thống hoạt động</h3>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-body">
+        <h5>Nhân viên submit ticket</h5>
+        <p>Truy cập <a href="https://globallinkasiaconsulting.atlassian.net/servicedesk/customer/portal/26/group/61/create/1310" target="_blank" style="color:var(--primary);word-break:break-all;">Service Desk → Monthly Salary</a>, điền đầy đủ các trường bắt buộc: lương hợp đồng, kỳ lương (từ ngày – đến ngày), số tiền đã trả đầu kỳ, và các thông tin liên quan.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-body">
+        <h5>Hệ thống HR Desk chuyển → "In Progress"</h5>
+        <p>Hệ thống <strong>tự động</strong> tạo phiếu lương nháp: tính lương cơ bản, bảo hiểm, thuế TNCN, và tổng hợp thưởng tháng đã duyệt.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-body">
+        <h5>Công ty review phiếu lương nháp</h5>
+        <p>Công ty (HR) xem trong Issue Panel. Nếu sai → sửa custom fields → hệ thống tự cập nhật.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div class="flow-body">
+        <h5>Công ty (HR) chuyển → "Done"</h5>
+        <p>Hệ thống <strong>khóa (lock)</strong> phiếu lương, đánh dấu toàn bộ thưởng tháng là <strong>đã chi trả (is_paid)</strong>. Phiếu lương không thể thay đổi sau bước này.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div class="flow-body">
+        <h5>Nhân viên xem phiếu lương</h5>
+        <p>Qua Service Desk → tìm request "Monthly Salary" của mình → panel Payslip → Có thể tải PDF.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Phiếu Lương Phần 1 — Lương Cơ Bản</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Mục</th><th>Công thức / Mô tả</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Lương hợp đồng (A)</strong></td><td>Lấy từ custom field "Base Salary" trên ticket</td></tr>
+        <tr><td>BHXH (8%)</td><td>A × 8%</td></tr>
+        <tr><td>BHYT (1.5%)</td><td>A × 1.5%</td></tr>
+        <tr><td>BHTN (1%)</td><td>A × 1%</td></tr>
+        <tr><td><strong>Tổng bảo hiểm</strong></td><td>= A × 10.5%</td></tr>
+        <tr><td><strong>Thuế TNCN</strong></td><td>Theo biểu lũy tiến (tính trên thu nhập chịu thuế sau giảm trừ gia cảnh)</td></tr>
+        <tr><td><strong>Lương Net hệ thống</strong></td><td>= A − Bảo hiểm − Thuế TNCN</td></tr>
+        <tr><td><strong>Lương Net thỏa thuận</strong></td><td>Từ custom field "Agreed Net" (nếu có — override lương net tự động)</td></tr>
+        <tr><td><strong>Thanh toán đầu kỳ</strong></td><td>Từ custom field "Payment 1 Amount" (số tiền đã trả trước)</td></tr>
+        <tr><td><strong>Chênh lệch lương</strong></td><td>= max(Lương Net mục tiêu − Đã nhận, 0) → Số tiền cần trả thêm cuối tháng</td></tr>
+        <tr><td>Phí công đoàn</td><td>0.5% × A (chỉ khi bật "Has Union Fee")</td></tr>
+        <tr><td>Thưởng hệ thống</td><td>Tổng thưởng đã duyệt trong tháng</td></tr>
+        <tr><td>Thưởng thủ công</td><td>Từ custom field "External Bonus Amount" (nếu có)</td></tr>
+        <tr><td><strong style="color:var(--primary)">TỔNG THANH TOÁN CUỐI KỲ</strong></td><td>= Chênh lệch + Thưởng hệ thống + Thưởng thủ công + Phí công đoàn</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout info" style="margin-top:12px;">
+    <div class="callout-icon">📐</div>
+    <div class="callout-content">
+      <strong>Ví dụ tính chênh lệch lương</strong>
+      Lương hợp đồng A = 20,000,000 VND → Sau bảo hiểm &amp; thuế → Lương Net: 15,500,000 VND → Đã trả đầu kỳ: 10,000,000 VND → <strong>Chênh lệch cần trả thêm: 5,500,000 VND</strong>
+    </div>
+  </div>
+
+  <h3>Phiếu Lương Phần 2 — Chi tiết Thưởng</h3>
+  <p>Liệt kê từng khoản thưởng trong tháng: mã ticket, vai trò, loại thưởng, số tiền, trạng thái, ghi chú.</p>
+
+  <h3>Các custom field bắt buộc trên ticket HM</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Custom Field</th><th>Mô tả</th><th class="center">Bắt buộc</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Period From</strong></td><td>Ngày bắt đầu kỳ lương</td><td class="center">✅</td></tr>
+        <tr><td><strong>Period To</strong></td><td>Ngày kết thúc kỳ lương</td><td class="center">✅</td></tr>
+        <tr><td><strong>Base Salary</strong></td><td>Lương hợp đồng</td><td class="center">✅</td></tr>
+        <tr><td><strong>Payment 1 Amount</strong></td><td>Số tiền đã thanh toán đầu kỳ</td><td class="center">✅</td></tr>
+        <tr><td><strong>Company Name</strong></td><td>Tên công ty hiển thị trên phiếu lương</td><td class="center">✅</td></tr>
+        <tr><td>Dependent Count</td><td>Số người phụ thuộc (giảm trừ gia cảnh) — mặc định 0</td><td class="center">❌</td></tr>
+        <tr><td>Has Union Fee</td><td>Có đóng phí công đoàn không — mặc định Không</td><td class="center">❌</td></tr>
+        <tr><td>Agreed Net Salary</td><td>Lương net thỏa thuận (override tự động)</td><td class="center">❌</td></tr>
+        <tr><td>External Bonus</td><td>Thưởng thủ công bên ngoài hệ thống</td><td class="center">❌</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Nhân viên xem phiếu lương của mình</h3>
+  <ol class="steps">
+    <li>Đăng nhập Jira → vào <strong>Service Desk</strong>.</li>
+    <li>Tìm request <strong>"Monthly Salary"</strong> mà bạn đã submit.</li>
+    <li>Trong trang chi tiết → tìm panel <strong>"Payslip"</strong> bên phải.</li>
+    <li>Nhấn <strong>"Xem phiếu lương"</strong> → Có thể <strong>tải PDF</strong> để lưu.</li>
+  </ol>
+  <div class="callout info">
+    <div class="callout-icon">ℹ️</div>
+    <div class="callout-content">Phiếu lương chỉ hiển thị sau khi ticket chuyển sang <strong>"In Progress"</strong>. Nếu chưa thấy, kiểm tra lại ticket đã được xử lý chưa hoặc liên hệ Công ty (HR).</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 4.8 TỶ GIÁ -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="exchange">
+  <div class="section-header">
+    <div class="section-num">4.8</div>
+    <div class="section-title-group">
+      <h2>Module Tỷ Giá Ngoại Tệ</h2>
+      <p>Dành cho: COO · Trong Cấu hình → Tab "Tỷ giá"</p>
+    </div>
+  </div>
+
+  <p>Quản lý tỷ giá quy đổi USD và SGD sang VND — được dùng trong tất cả phép tính thưởng liên quan đến ngoại tệ.</p>
+
+  <h3>Cập nhật tỷ giá</h3>
+  <ol class="steps">
+    <li>Vào <strong>Cấu hình → Tab "Tỷ giá"</strong>.</li>
+    <li>Nhập tỷ giá mới cho USD → VND và SGD → VND.</li>
+    <li>Nhấn <strong>"Lưu tỷ giá"</strong>.</li>
+  </ol>
+  <div class="callout warning">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-content">Tỷ giá mới chỉ áp dụng cho ticket <strong>mới phát sinh</strong> sau khi cập nhật. Để áp dụng lại cho dữ liệu cũ, dùng tính năng <strong>"Tính lại thưởng theo tháng"</strong>.</div>
+  </div>
+
+  <h3>Tính lại thưởng theo tháng</h3>
+  <p>Khi tỷ giá thay đổi và cần cập nhật lại thưởng đã tạo trong tháng trước:</p>
+  <ol class="steps">
+    <li>Chọn <strong>Tháng</strong> cần tính lại.</li>
+    <li>Nhấn <strong>"Tính lại thưởng"</strong>.</li>
+    <li>Xác nhận trong hộp thoại.</li>
+  </ol>
+  <div class="callout danger">
+    <div class="callout-icon">🚫</div>
+    <div class="callout-content"><strong>Không thể hoàn tác.</strong> Thao tác này cập nhật tất cả khoản thưởng của tháng đã chọn. Chỉ thực hiện khi được Finance xác nhận.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 4.9 KÍCH HOẠT THỦ CÔNG -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="trigger">
+  <div class="section-header">
+    <div class="section-num">4.9</div>
+    <div class="section-title-group">
+      <h2>Module Kích Hoạt Tính Thưởng Thủ Công</h2>
+      <p>Dành cho: Manager trở lên · Trong Thưởng Nhóm → "Kích hoạt thủ công"</p>
+    </div>
+  </div>
+
+  <p>Dùng khi hệ thống không tự động tạo thưởng — ví dụ: ticket hoàn thành trước khi hệ thống được cài đặt, hoặc webhook Jira bị lỗi.</p>
+
+  <h3>Khi nào nên dùng?</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tình huống</th><th>Cách xử lý</th></tr></thead>
+      <tbody>
+        <tr><td>Ticket Done trước khi cài hệ thống</td><td>Kích hoạt thủ công với trạng thái "Done"</td></tr>
+        <tr><td>Webhook Jira bị timeout</td><td>Kích hoạt thủ công sau khi webhook phục hồi</td></tr>
+        <tr><td>Cập nhật tài chính → cần tính lại</td><td>Dùng <strong>"Cập nhật tài chính ticket"</strong> (mục 4.2) — <em>không</em> kích hoạt thủ công</td></tr>
+        <tr><td>Thưởng bị bỏ sót</td><td>Kiểm tra log → Kích hoạt thủ công nếu chưa có entry</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Kích hoạt một ticket</h3>
+  <ol class="steps">
+    <li>Nhập <strong>mã ticket</strong> cần kích hoạt.</li>
+    <li>Chọn <strong>trạng thái trigger</strong>: <code>In Progress</code> hoặc <code>Done</code>.</li>
+    <li>Nhấn <strong>"Xem trước"</strong> để kiểm tra: quy tắc nào áp dụng, ai nhận thưởng, số tiền dự kiến.</li>
+    <li>Nhập <strong>lý do</strong> kích hoạt thủ công.</li>
+    <li>Nhấn <strong>"Xác nhận kích hoạt"</strong>.</li>
+  </ol>
+
+  <h3>Kích hoạt hàng loạt (Bulk)</h3>
+  <ol class="steps">
+    <li>Nhập danh sách mã ticket (mỗi dòng một ticket).</li>
+    <li>Chọn trạng thái trigger chung.</li>
+    <li>Nhấn <strong>"Xem trước hàng loạt"</strong> để review tất cả cùng lúc.</li>
+    <li>Nhập lý do → Nhấn <strong>"Kích hoạt tất cả"</strong>.</li>
+  </ol>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 4.10 XUẤT DỮ LIỆU -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="export">
+  <div class="section-header">
+    <div class="section-num">4.10</div>
+    <div class="section-title-group">
+      <h2>Module Xuất Dữ Liệu</h2>
+      <p>Dành cho: Admin · Đường dẫn: /export</p>
+    </div>
+  </div>
+
+  <p>Cho phép Admin xuất toàn bộ dữ liệu hệ thống ra file Excel/CSV để báo cáo, backup hoặc phân tích ngoài hệ thống.</p>
+
+  <h3>Các bảng có thể xuất</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Bảng</th><th>Nội dung</th></tr></thead>
+      <tbody>
+        <tr><td><code>bonus_entries</code></td><td>Toàn bộ khoản thưởng</td></tr>
+        <tr><td><code>bonus_rules</code></td><td>Tất cả quy tắc thưởng</td></tr>
+        <tr><td><code>approval_logs</code></td><td>Lịch sử phê duyệt</td></tr>
+        <tr><td><code>ticket_financials</code></td><td>Dữ liệu tài chính ticket</td></tr>
+        <tr><td><code>exchange_rates</code></td><td>Lịch sử tỷ giá</td></tr>
+        <tr><td><code>payslip_snapshots</code></td><td>Lưu trữ phiếu lương đã khóa</td></tr>
+        <tr><td><code>adjustment_requests</code></td><td>Yêu cầu điều chỉnh thưởng</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Cách xuất</h3>
+  <p><strong>Xuất một bảng:</strong> Chọn tên bảng → (Tùy chọn) Chọn khoảng thời gian → Nhấn <strong>"Xuất Excel"</strong> hoặc <strong>"Xuất CSV"</strong>.</p>
+  <p><strong>Xuất toàn bộ (Backup):</strong> Nhấn <strong>"Xuất tất cả bảng"</strong> → Hệ thống tạo file ZIP chứa tất cả bảng → Tải xuống.</p>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 5. QUY TRÌNH NGHIỆP VỤ -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="workflow">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <div class="section-title-group">
+      <h2>Quy Trình Nghiệp Vụ</h2>
+      <p>Các vòng đời thưởng từ đầu đến cuối</p>
+    </div>
+  </div>
+
+  <h3>5.1 Quy trình tính thưởng tự động (End-to-End)</h3>
+  <div class="flow">
+    <div class="flow-step"><div class="flow-num">1</div><div class="flow-body"><h5>Ticket đổi trạng thái</h5><p>Developer hoàn thành ticket → Manager chuyển sang "Done".</p></div></div>
+    <div class="flow-step"><div class="flow-num">2</div><div class="flow-body"><h5>Hệ thống khớp quy tắc</h5><p>Hệ thống nhận sự kiện từ Jira → Tìm quy tắc phù hợp (Project + Issue Type + Status) → Tìm thấy: "10% lợi nhuận cho Assignee".</p></div></div>
+    <div class="flow-step"><div class="flow-num">3</div><div class="flow-body"><h5>Lấy dữ liệu tài chính từ CRM</h5><p>Đọc số hóa đơn từ ticket → Gọi CRM (VTiger) lấy: Doanh thu, Chi phí (POs), Lợi nhuận.</p></div></div>
+    <div class="flow-step"><div class="flow-num">4</div><div class="flow-body"><h5>Tính và tạo khoản thưởng</h5><p>Tính: Lợi nhuận × 10% → Kiểm tra chính sách → Tạo bonus entry trạng thái <span class="badge badge-pending">Pending</span>.</p></div></div>
+    <div class="flow-step"><div class="flow-num">5</div><div class="flow-body"><h5>Nhân viên thấy thưởng, COO duyệt</h5><p>Nhân viên xem trong "Thưởng Cá Nhân" → COO duyệt → <span class="badge badge-approved">Approved</span>.</p></div></div>
+    <div class="flow-step"><div class="flow-num">6</div><div class="flow-body"><h5>Chi trả qua phiếu lương</h5><p>Cuối tháng: HR tạo ticket HM → Done → Hệ thống khóa phiếu lương → Thưởng xuất hiện trong Phiếu 2, đánh dấu is_paid.</p></div></div>
+  </div>
+
+  <h3>5.2 Quy trình điều chỉnh thưởng</h3>
+  <div class="flow">
+    <div class="flow-step"><div class="flow-num">1</div><div class="flow-body"><h5>Nhân viên phát hiện thưởng chưa đúng</h5><p>Gửi "Yêu cầu điều chỉnh" với lý do cụ thể → Trạng thái chuyển sang <span class="badge badge-adjust">Request Adjust</span>.</p></div></div>
+    <div class="flow-step"><div class="flow-num">2</div><div class="flow-body"><h5>COO xem xét</h5><p>Xem xét lý do, số liệu, đối chiếu với Finance nếu cần.</p></div></div>
+    <div class="flow-step"><div class="flow-num">3</div><div class="flow-body"><h5>Duyệt hoặc từ chối</h5><p><strong>Duyệt:</strong> Nhập số tiền mới → <span class="badge badge-approved">Approved</span>. — <strong>Từ chối:</strong> Nhập lý do → <span class="badge badge-rejected">Rejected</span> (giữ nguyên số cũ).</p></div></div>
+  </div>
+
+  <h3>5.3 Chu kỳ thưởng hàng tháng</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Thời điểm</th><th>Hoạt động</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Ngày 1–31 trong tháng</strong></td><td>Ticket hoàn thành → Thưởng tạo (Pending) → COO duyệt → Approved. Nhân viên có thể gửi yêu cầu điều chỉnh bất kỳ lúc nào.</td></tr>
+        <tr><td><strong>Cuối tháng (HR tạo phiếu lương)</strong></td><td>Tổng hợp thưởng Approved trong tháng → Đưa vào Slip 2 → Ticket Done → Đánh dấu is_paid.</td></tr>
+        <tr><td><strong>Đầu tháng mới</strong></td><td>Chu kỳ bắt đầu lại từ đầu.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 6. FAQ -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="faq">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <div class="section-title-group">
+      <h2>Câu Hỏi Thường Gặp</h2>
+      <p>Giải đáp những thắc mắc phổ biến nhất</p>
+    </div>
+  </div>
+
+  <h3>Về tính toán thưởng</h3>
+
+  <div class="faq-item">
+    <div class="faq-q">Tại sao tôi thấy thưởng 0 VND hoặc không có thưởng?</div>
+    <div class="faq-a">Có thể do một trong các nguyên nhân sau: (1) Ticket chưa khớp quy tắc nào — hỏi Manager xem ticket có đúng loại và dự án không; (2) Hóa đơn chưa được nhập vào CRM; (3) Lợi nhuận âm hoặc bằng 0; (4) Webhook Jira bị lỗi — nhờ Manager kích hoạt thủ công.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Thưởng của tôi bị tính sai. Phải làm gì?</div>
+    <div class="faq-a">Dùng tính năng <strong>"Yêu cầu điều chỉnh"</strong> trong trang Thưởng Cá Nhân. Mô tả rõ lý do và số tiền đề xuất. COO sẽ xem xét trong vòng 2–3 ngày làm việc.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Tại sao thưởng hiển thị "Ngoài phạm vi chính sách"?</div>
+    <div class="faq-a">Nghĩa là số tiền thưởng cao hơn mức kỳ vọng theo quy tắc chuẩn (thường do COO đã điều chỉnh lên). Đây <strong>không phải lỗi</strong> — chỉ là cờ ghi nhận sự khác biệt so với mức chuẩn để tiện theo dõi.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Thưởng Pending bao lâu thì được duyệt?</div>
+    <div class="faq-a">Không có thời hạn cố định — thưởng Pending đến khi COO duyệt. Nếu quá 1 tuần chưa được duyệt, nhắc nhở Manager của bạn.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Tôi có thể xem hệ thống tính thưởng của mình như thế nào không?</div>
+    <div class="faq-a">Nhấn vào dòng thưởng để xem chi tiết: lợi nhuận, tỷ lệ áp dụng, tỷ giá sử dụng. Nếu cần xem doanh thu/chi phí đầy đủ, nhờ Manager bật tính năng "Hiển thị dữ liệu nhạy cảm".</div>
+  </div>
+
+  <h3>Về phiếu lương</h3>
+
+  <div class="faq-item">
+    <div class="faq-q">Tôi không thấy phiếu lương tháng này. Tại sao?</div>
+    <div class="faq-a">Phiếu lương chỉ hiển thị sau khi ticket "Monthly Salary" của bạn chuyển sang "In Progress". Hỏi HR xem ticket đã được tạo và xử lý chưa.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Tại sao thưởng trong phiếu lương khác với số tôi thấy trong "Thưởng Cá Nhân"?</div>
+    <div class="faq-a">Phiếu lương chỉ bao gồm thưởng có trạng thái <strong>Approved</strong> và thuộc <strong>kỳ lương</strong> tương ứng. Thưởng Pending hoặc thuộc tháng khác sẽ không xuất hiện.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Phiếu lương tháng trước bị sai. Có thể sửa không?</div>
+    <div class="faq-a">Nếu phiếu lương đã bị khóa (ticket Done), chỉ COO/Admin mới có thể mở khóa. Liên hệ bộ phận HR và Admin hệ thống.</div>
+  </div>
+
+  <h3>Về quyền truy cập</h3>
+
+  <div class="faq-item">
+    <div class="faq-q">Tôi không thấy menu "Thưởng Nhóm". Tại sao?</div>
+    <div class="faq-a">Menu này chỉ hiển thị với tài khoản có vai trò Manager trở lên. Liên hệ Admin để được cấp quyền phù hợp.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Tôi là Manager nhưng không thấy nhân viên của mình trong Thưởng Nhóm?</div>
+    <div class="faq-a">Hệ thống căn cứ vào cấu trúc tổ chức trong Jira. Kiểm tra với Admin xem bạn đã được thiết lập là "leader" của những nhân viên đó chưa.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Số tiền thưởng vẫn hiển thị **** dù tôi là Manager?</div>
+    <div class="faq-a">Cần chủ động nhấn nút <strong>"Hiển thị dữ liệu nhạy cảm"</strong> (biểu tượng mắt 👁️) trên trang. Dữ liệu không tự hiện vì lý do bảo mật — phải bật thủ công mỗi phiên.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Tôi đã gửi yêu cầu điều chỉnh nhưng muốn thay đổi nội dung. Được không?</div>
+    <div class="faq-a">Không thể chỉnh sửa trực tiếp. Liên hệ Manager hoặc COO và nhờ họ từ chối yêu cầu cũ — sau đó bạn gửi lại yêu cầu mới.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 7. XỬ LÝ SỰ CỐ -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="trouble">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <div class="section-title-group">
+      <h2>Xử Lý Sự Cố</h2>
+      <p>Khi gặp vấn đề — tìm nguyên nhân và cách khắc phục</p>
+    </div>
+  </div>
+
+  <h3>Thưởng không được tạo tự động</h3>
+  <p><strong>Triệu chứng:</strong> Ticket đã "Done" nhưng không thấy thưởng mới trong "Thưởng Cá Nhân" sau 10–15 phút.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Kiểm tra</th><th>Cách kiểm tra</th></tr></thead>
+      <tbody>
+        <tr><td>Ticket có khớp quy tắc thưởng nào không?</td><td>Nhờ Manager/COO kiểm tra trong trang Cấu hình</td></tr>
+        <tr><td>Hóa đơn CRM đã được nhập chưa?</td><td>Kiểm tra số hóa đơn trong ticket Jira</td></tr>
+        <tr><td>Webhook Jira có bị trễ không?</td><td>Chờ thêm 5–10 phút</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Giải pháp:</strong> Nhờ Manager dùng <strong>"Kích hoạt thủ công"</strong> cho ticket đó. Nếu vẫn không có kết quả, báo Admin kiểm tra log hệ thống.</p>
+
+  <h3>Số tiền thưởng không đúng</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Nguyên nhân thường gặp</th><th>Cách xử lý</th></tr></thead>
+      <tbody>
+        <tr><td>Lợi nhuận CRM chưa cập nhật</td><td>Manager cập nhật tài chính ticket → Hệ thống tính lại tự động</td></tr>
+        <tr><td>Tỷ giá chưa đúng</td><td>COO cập nhật tỷ giá → Tính lại thưởng theo tháng</td></tr>
+        <tr><td>Áp dụng sai quy tắc</td><td>Kiểm tra cấu hình quy tắc với COO</td></tr>
+        <tr><td>Hóa đơn CRM thiếu Purchase Order</td><td>Bổ sung PO vào CRM</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Giải pháp nhanh:</strong> Dùng "Yêu cầu điều chỉnh" để COO cập nhật thủ công trong khi chờ dữ liệu gốc được sửa.</p>
+
+  <h3>Phiếu lương không tự động tạo</h3>
+  <p><strong>Triệu chứng:</strong> Ticket "Monthly Salary" đã "In Progress" nhưng không thấy phiếu lương nháp.</p>
+  <p>Kiểm tra: (1) Tất cả custom fields bắt buộc đã điền đủ chưa? (2) Định dạng ngày đúng chưa — phải là <code>YYYY-MM-DD</code>? (3) Base Salary có > 0 không?</p>
+  <p>Nếu tất cả đúng → Báo Admin dùng endpoint kỹ thuật để tạo thủ công.</p>
+
+  <h3>Lỗi "Không có quyền truy cập"</h3>
+  <ol class="steps">
+    <li>Đăng xuất Jira và đăng nhập lại.</li>
+    <li>Kiểm tra vai trò của bạn trong hệ thống với Admin.</li>
+    <li>Admin cập nhật vai trò trong bảng cấu hình hệ thống.</li>
+  </ol>
+
+  <h3>Liên hệ hỗ trợ</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Vấn đề</th><th>Liên hệ ai</th></tr></thead>
+      <tbody>
+        <tr><td>Không nhận được thưởng / thưởng sai</td><td>Manager trực tiếp</td></tr>
+        <tr><td>Thưởng cần điều chỉnh phức tạp</td><td>Manager → COO</td></tr>
+        <tr><td>Lỗi kỹ thuật / Không vào được hệ thống</td><td>Admin hệ thống</td></tr>
+        <tr><td>Khiếu nại về chính sách thưởng</td><td>COO + HR</td></tr>
+        <tr><td>Phiếu lương sai</td><td>HR + Admin hệ thống</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- 8. PHỤ LỤC -->
+<!-- ════════════════════════════════ -->
+<div class="section" id="appendix">
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <div class="section-title-group">
+      <h2>Phụ Lục &amp; Thuật Ngữ</h2>
+      <p>Tra cứu nhanh các mã, trạng thái và khái niệm trong hệ thống</p>
+    </div>
+  </div>
+
+  <h3>Bảng trạng thái thưởng</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Trạng thái</th><th>Màu</th><th>Ý nghĩa</th><th>Hành động tiếp theo</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-pending">Pending</span></td><td>🟡 Vàng</td><td>Mới tạo, chưa có ai duyệt</td><td>Chờ Manager/COO duyệt</td></tr>
+        <tr><td><span class="badge badge-approved">Approved</span></td><td>🟢 Xanh</td><td>Đã duyệt, sẵn sàng chi trả</td><td>Sẽ vào phiếu lương; có thể xác nhận nhận</td></tr>
+        <tr><td><span class="badge badge-rejected">Rejected</span></td><td>🔴 Đỏ</td><td>Bị từ chối (có lý do)</td><td>Xem lý do → liên hệ Manager</td></tr>
+        <tr><td><span class="badge badge-adjust">Request Adjust</span></td><td>🟠 Cam</td><td>Đang chờ COO xem xét điều chỉnh</td><td>Chờ COO xử lý</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Bảng loại thưởng</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Loại</th><th>Công thức</th><th>Ví dụ</th></tr></thead>
+      <tbody>
+        <tr><td><strong>% Lợi nhuận</strong> (<code>% of profit</code>)</td><td>Thưởng = Lợi nhuận × %</td><td>Lợi nhuận 70M × 10% = 7,000,000 VND</td></tr>
+        <tr><td><strong>Thưởng cố định</strong> (<code>Base Reward</code>)</td><td>Thưởng = Số tiền cố định</td><td>2,000,000 VND / ticket</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Đơn vị tiền tệ hỗ trợ</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Mã</th><th>Tên</th><th>Quy đổi</th></tr></thead>
+      <tbody>
+        <tr><td><code>VND</code></td><td>Đồng Việt Nam</td><td>Đơn vị cơ bản</td></tr>
+        <tr><td><code>USD</code></td><td>Đô la Mỹ</td><td>USD × Tỷ giá hiện tại = VND</td></tr>
+        <tr><td><code>SGD</code></td><td>Đô la Singapore</td><td>SGD × Tỷ giá hiện tại = VND</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Thuật ngữ hay gặp</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Thuật ngữ</th><th>Giải thích đơn giản</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Ticket</strong></td><td>Một đầu việc/task trên hệ thống Jira</td></tr>
+        <tr><td><strong>Bonus Rule / Quy tắc thưởng</strong></td><td>Cài đặt xác định ai nhận thưởng bao nhiêu khi nào từ dự án nào</td></tr>
+        <tr><td><strong>Bonus Entry</strong></td><td>Một khoản thưởng cụ thể đã được tạo cho một nhân viên từ một ticket</td></tr>
+        <tr><td><strong>Approval Log</strong></td><td>Nhật ký ghi lại toàn bộ thay đổi trạng thái thưởng (ai làm gì, lúc nào)</td></tr>
+        <tr><td><strong>Payslip Snapshot</strong></td><td>Bản sao phiếu lương đã khóa — không thể thay đổi sau khi được tạo</td></tr>
+        <tr><td><strong>CRM (VTiger)</strong></td><td>Hệ thống quản lý khách hàng — nguồn dữ liệu hóa đơn và chi phí</td></tr>
+        <tr><td><strong>Invoice / Hóa đơn</strong></td><td>Chứng từ bán hàng từ CRM — cơ sở tính doanh thu</td></tr>
+        <tr><td><strong>Purchase Order (PO)</strong></td><td>Đơn đặt hàng từ CRM — cơ sở tính chi phí</td></tr>
+        <tr><td><strong>Lợi nhuận (Profit)</strong></td><td>Doanh thu − Chi phí (từ hóa đơn và PO trong CRM)</td></tr>
+        <tr><td><strong>Kỳ thưởng (Period)</strong></td><td>Tháng/năm mà khoản thưởng thuộc về, định dạng YYYY-MM</td></tr>
+        <tr><td><strong>is_paid</strong></td><td>Đánh dấu thưởng đã được chi trả qua phiếu lương</td></tr>
+        <tr><td><strong>Trigger Status</strong></td><td>Trạng thái Jira mà khi ticket chuyển sang đó, thưởng được tạo tự động</td></tr>
+        <tr><td><strong>PER_TICKET</strong></td><td>Thưởng tính riêng cho từng ticket ngay khi đủ điều kiện</td></tr>
+        <tr><td><strong>PER_BLOCK</strong></td><td>Thưởng gom lại theo tháng hoặc chu kỳ rồi tính một lần</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<!-- ════════════════════════════════ -->
+<!-- 9. TÀI LIỆU KỸ THUẬT (TECH) -->
+<!-- ════════════════════════════════ -->
+
+
+<footer>
+  Tài liệu này được duy trì bởi đội ngũ Admin hệ thống GLAC.<br>
+  Vui lòng liên hệ Admin nếu phát hiện thông tin không chính xác hoặc cần cập nhật.<br>
+  <strong>GLAC Bonus Calculation Central — Hướng Dẫn Sử Dụng v1.0 · Tháng 4 năm 2026</strong>
+</footer>
+
+</main>
+</div>
+
+<script>
+(function() {
+  /* ── READING PROGRESS BAR ── */
+  const bar = document.getElementById('reading-progress');
+  function updateProgress() {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    bar.style.width = pct + '%';
+    if (pct > 1 && pct < 99) bar.classList.add('active');
+    else bar.classList.remove('active');
+  }
+
+  /* ── SCROLL-SPY via IntersectionObserver ── */
+  const navItems = Array.from(document.querySelectorAll('.nav-item[href^="#"]'));
+  const currentTitle = document.getElementById('current-title');
+
+  // Map section id → nav item text
+  const sectionMap = {};
+  navItems.forEach(item => {
+    const id = item.getAttribute('href').replace('#', '');
+    sectionMap[id] = item.textContent.trim();
+  });
+
+  let activeId = null;
+
+  function setActive(id) {
+    if (activeId === id) return;
+    activeId = id;
+
+    navItems.forEach(item => item.classList.remove('active'));
+
+    const target = document.querySelector(`.nav-item[href="#${id}"]`);
+    if (target) {
+      target.classList.add('active');
+
+      // Smooth scroll the sidebar-nav (scrollable part) so active item is always visible
+      const sidebarNav = document.querySelector('.sidebar-nav');
+      if (sidebarNav) {
+        const navTop    = sidebarNav.getBoundingClientRect().top;
+        const itemTop   = target.getBoundingClientRect().top;
+        const itemH     = target.offsetHeight;
+        const navH      = sidebarNav.offsetHeight;
+        const scrollTo  = sidebarNav.scrollTop + (itemTop - navTop) - (navH / 2) + (itemH / 2);
+        sidebarNav.scrollTo({ top: Math.max(0, scrollTo), behavior: 'smooth' });
+      }
+
+      // Update "Đang đọc" label
+      if (currentTitle) {
+        const text = sectionMap[id] || target.textContent.trim();
+        if (currentTitle.textContent !== text) {
+          currentTitle.style.opacity = '0';
+          currentTitle.style.transform = 'translateY(4px)';
+          setTimeout(() => {
+            currentTitle.textContent = text;
+            currentTitle.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+            currentTitle.style.opacity = '1';
+            currentTitle.style.transform = 'translateY(0)';
+          }, 150);
+        }
+      }
+
+      // Reading focus: mark active section, dim others
+      sections.forEach(s => s.classList.remove('section-in-view'));
+      const activeSec = document.getElementById(id);
+      if (activeSec) activeSec.classList.add('section-in-view');
+    }
+  }
+
+  // Collect all observed elements in order
+  const sectionIds = navItems.map(item => item.getAttribute('href').replace('#', ''));
+  const sections   = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+  // IntersectionObserver — fires when top of section enters upper 30% of viewport
+  const observer = new IntersectionObserver((entries) => {
+    // Build a map of currently intersecting sections
+    entries.forEach(entry => {
+      entry.target._isIntersecting = entry.isIntersecting;
+    });
+
+    // Pick the first intersecting section (topmost on screen)
+    const visible = sections.filter(s => s._isIntersecting);
+    if (visible.length > 0) {
+      // Sort by vertical position to always pick the topmost
+      visible.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+      setActive(visible[0].id);
+    }
+  }, {
+    rootMargin: '-10% 0px -55% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(s => observer.observe(s));
+
+  /* ── FALLBACK: scroll-based active for tech section (outside .content) ── */
+  function scrollFallback() {
+    updateProgress();
+
+    // If we're near the bottom, force #tech or #appendix active
+    const scrollBottom = window.scrollY + window.innerHeight;
+    const docH         = document.documentElement.scrollHeight;
+    if (scrollBottom >= docH - 60) {
+      const techEl = document.getElementById('tech');
+      if (techEl) setActive('tech');
+    }
+  }
+
+  /* ── SMOOTH CLICK SCROLL with offset ── */
+  navItems.forEach(item => {
+    item.addEventListener('click', function(e) {
+      const id = this.getAttribute('href').replace('#', '');
+      const target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        const offset = 24;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  /* ── SECTION ENTRANCE ANIMATION ── */
+  const entryObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('section-entering');
+        entryObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05 });
+
+  sections.forEach(s => entryObserver.observe(s));
+
+  /* ── EVENT LISTENERS ── */
+  window.addEventListener('scroll', scrollFallback, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 120) document.body.classList.add('has-scrolled');
+    else document.body.classList.remove('has-scrolled');
+  }, { passive: true });
+  updateProgress();
+
+  // Set initial active on load
+  if (sections.length > 0) {
+    setActive(sections[0].id);
+    sections[0].classList.add('section-in-view');
+  }
+})();
+</script>
+
 </body>
 </html>
