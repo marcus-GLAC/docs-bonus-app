@@ -1030,6 +1030,7 @@
           <a href="#personal" class="nav-item">4.1 Thưởng Cá Nhân</a>
           <a href="#team" class="nav-item">4.2 Thưởng Nhóm</a>
           <a href="#forward" class="nav-item nav-item-sub">↳ Forward Bonus</a>
+          <a href="#multi-invoice" class="nav-item nav-item-sub">↳ Ticket nhiều invoice</a>
           <a href="#company" class="nav-item">4.3 Thưởng Công Ty</a>
           <a href="#coo-adj" class="nav-item">4.4 Duyệt Điều Chỉnh COO</a>
           <a href="#config" class="nav-item">4.5 Cấu Hình Quy Tắc</a>
@@ -2231,6 +2232,120 @@
                 <strong>Lưu ý quan trọng</strong>
                 Forward chỉ áp dụng cho thưởng not ready. Thưởng đã đủ điều kiện tính thưởng (dù vẫn Pending) sẽ không
                 được forward ( không xuất hiện nút forward)
+              </div>
+            </div>
+
+            <!-- ── TICKET NHIỀU INVOICE ── -->
+            <h3 id="multi-invoice">Ticket có nhiều mã invoice</h3>
+            <p>
+              Một số ticket có thể liên quan đến nhiều hóa đơn (invoice) cùng lúc — ví dụ: khách hàng thanh toán nhiều
+              dịch vụ trong một đơn. Hệ thống hỗ trợ tính thưởng riêng cho <strong>từng invoice</strong>, tối đa
+              <strong>5 invoice / ticket</strong>.
+            </p>
+
+            <h4>Cách nhập nhiều invoice trên ticket</h4>
+            <p>
+              Điền tất cả mã invoice vào trường <strong>Invoice No</strong> trên ticket Jira, phân cách nhau bằng
+              <strong>dấu phẩy</strong>, dấu chấm phẩy, hoặc xuống dòng:
+            </p>
+            <pre><code>INV-20260120, INV-20251486, INV-20251506</code></pre>
+
+            <div class="callout warning">
+              <div class="callout-icon">⚠️</div>
+              <div class="callout-content">
+                <strong>Quan trọng — điền đầy đủ trước khi chuyển Done</strong>
+                Hệ thống đọc danh sách invoice tại thời điểm ticket chuyển sang <code>Done</code>. Nếu bạn thêm invoice
+                vào trường sau khi ticket đã chuyển trạng thái, invoice mới đó <strong>sẽ không được tính tự
+                động</strong> — cần dùng chức năng Re-process (xem bên dưới).
+              </div>
+            </div>
+
+            <h4>Hệ thống xử lý như thế nào</h4>
+            <div class="flow">
+              <div class="flow-step">
+                <div class="flow-num">1</div>
+                <div class="flow-body">
+                  <h5>Ticket chuyển sang Done</h5>
+                  <p>Hệ thống đọc toàn bộ mã invoice trong trường Invoice No và đưa vào hàng chờ xử lý.</p>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-num">2</div>
+                <div class="flow-body">
+                  <h5>Tính thưởng cho từng invoice</h5>
+                  <p>
+                    Mỗi invoice được tính độc lập: lấy số liệu từ CRM, tính lợi nhuận, tạo khoản thưởng riêng.
+                    Quá trình này chạy ngầm, thường mất <strong>vài giây đến 1–2 phút</strong> tuỳ số lượng invoice.
+                  </p>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-num">3</div>
+                <div class="flow-body">
+                  <h5>Kết quả hiển thị trong bảng "Roles and bonuses"</h5>
+                  <p>
+                    Các khoản thưởng được <strong>gộp thành một dòng</strong> theo từng nhân viên/vai trò. Nhấn mũi tên
+                    mở rộng để xem chi tiết từng invoice.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <h4>Trạng thái Eligible và chính sách duyệt</h4>
+            <p>
+              Mỗi invoice có thể ở trạng thái <strong>Eligible</strong> (đã thanh toán, sẵn sàng duyệt) hoặc
+              <strong>Not Ready</strong> (hóa đơn chưa được thanh toán). Hệ thống áp dụng chính sách:
+            </p>
+            <div class="callout info">
+              <div class="callout-icon">📋</div>
+              <div class="callout-content">
+                <strong>Chính sách 1 ticket — 1 kỳ lương</strong>
+                Tất cả invoice trong cùng một ticket phải <strong>Eligible hết</strong> thì mới được duyệt thưởng.
+                Nếu còn một invoice chưa sẵn sàng, toàn bộ nút Approve sẽ bị ẩn và hệ thống hiển thị cảnh báo màu vàng
+                — đây là thiết kế có chủ ý để đảm bảo thưởng được tính đúng kỳ cho tất cả mọi người.
+              </div>
+            </div>
+
+            <h4>Khi có invoice chưa Eligible — 3 cách xử lý</h4>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Tình huống</th>
+                    <th>Cách xử lý</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Khách hàng sắp thanh toán invoice còn lại</strong></td>
+                    <td>
+                      Chờ khách thanh toán → nhấn nút <strong>Reload</strong> (biểu tượng tải lại màu xanh) trên dòng
+                      ticket → hệ thống cập nhật trạng thái → khi tất cả Eligible, nút Approve tự xuất hiện trở lại.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>Invoice chưa thanh toán, muốn dời sang tháng sau</strong></td>
+                    <td>
+                      Dùng <strong>Forward Bonus</strong> để chuyển toàn bộ ticket (kể cả tất cả invoice) sang kỳ lương
+                      tháng sau. Khi tháng sau đủ điều kiện, nhấn Reload lại để kiểm tra.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>Invoice đó không có thưởng (ví dụ: chi phí nội bộ)</strong></td>
+                    <td>
+                      COO có thể nhấn nút <strong>Từ chối (✗)</strong> riêng cho khoản thưởng của invoice đó. Sau khi
+                      Reject, invoice đó không còn là blocker — các invoice khác sẽ mở khóa và có thể duyệt bình thường.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="callout info">
+              <div class="callout-icon">💡</div>
+              <div class="callout-content">
+                <strong>Giới hạn số invoice</strong>
+                Tối đa <strong>5 invoice / ticket</strong>. Nếu vượt giới hạn, hệ thống sẽ từ chối tính thưởng và thông báo lỗi. Vui lòng tách bớt công việc ra ticket riêng.
               </div>
             </div>
           </div>
