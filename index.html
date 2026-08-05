@@ -1039,6 +1039,7 @@
           <a href="#exchange" class="nav-item">4.8 Tỷ Giá Ngoại Tệ</a>
           <a href="#trigger" class="nav-item">4.9 Tính Thưởng Thủ Công</a>
           <a href="#export" class="nav-item">4.10 Xuất Dữ Liệu</a>
+          <a href="#field-guide" class="nav-item">4.11 Field Ticket/Invoice/PO</a>
 
           <div class="nav-section-label">Vận hành</div>
           <a href="#workflow" class="nav-item">5. Quy trình nghiệp vụ</a>
@@ -3110,6 +3111,434 @@
               <strong>Xuất toàn bộ (Backup):</strong> Nhấn <strong>"Xuất tất cả bảng"</strong> → Hệ thống tạo file ZIP
               chứa tất cả bảng → Tải xuống.
             </p>
+          </div>
+
+          <!-- ════════════════════════════════ -->
+          <!-- 4.11 FIELD QUAN TRỌNG — TICKET, INVOICE, PO -->
+          <!-- ════════════════════════════════ -->
+          <div class="section" id="field-guide">
+            <div class="section-header">
+              <div class="section-num">4.11</div>
+              <div class="section-title-group">
+                <h2>Field Quan Trọng — Ticket, Invoice, PO</h2>
+                <p>Dành cho: PIC (PM/Dev/BA), Sales/CS · Kế toán/Purchasing trên CRM Vtiger</p>
+              </div>
+            </div>
+
+            <p>
+              Số tiền thưởng và trạng thái <strong>"Đủ điều kiện" (Eligible)</strong> phụ thuộc trực tiếp vào cách
+              điền field trên <strong>3 nơi</strong>: ticket Jira, Invoice trên CRM, và PO trên CRM. Chỉ cần điền
+              đúng ngay từ đầu là tránh được tình trạng thưởng bị tính sai hoặc bị giữ lại.
+            </p>
+
+            <div class="flow">
+              <div class="flow-step">
+                <div class="flow-num">1</div>
+                <div class="flow-body">
+                  <h5>Tạo ticket trên Jira</h5>
+                  <p>PIC điền đúng dự án, loại việc, người nhận thưởng, mã Invoice — xem Mục A.</p>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-num">2</div>
+                <div class="flow-body">
+                  <h5>Tạo Invoice trên CRM</h5>
+                  <p>PIC/Sales điền đúng số tiền, PO liên quan, chiết khấu — xem Mục B.</p>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-num">3</div>
+                <div class="flow-body">
+                  <h5>Tạo PO trên CRM (nếu có chi phí)</h5>
+                  <p>Kế toán/Purchasing cập nhật đúng trạng thái và số tiền đã trả — xem Mục C.</p>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="flow-num">4</div>
+                <div class="flow-body">
+                  <h5>Kiểm tra kết quả</h5>
+                  <p>Xem nhãn "Đủ điều kiện" trong Thưởng Cá Nhân/Thưởng Nhóm trước khi gửi COO duyệt.</p>
+                </div>
+              </div>
+            </div>
+
+            <h3>Ai điền field nào</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Vai trò</th>
+                    <th>Điền ở đâu</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>PIC</strong> (PM/Dev/BA)</td>
+                    <td>Mục A — field trên ticket Jira/JSM</td>
+                  </tr>
+                  <tr>
+                    <td><strong>PIC</strong> (trên CRM Vtiger)</td>
+                    <td>Mục B — field trên Invoice, PO</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Kế toán / Purchasing</strong> (trên CRM Vtiger)</td>
+                    <td>Cashflow khi trả tiền NCC</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Manager</strong></td>
+                    <td>Không điền field — theo dõi nhãn "Đủ điều kiện" và bấm <strong>Reload</strong> sau khi A/B/C
+                      đã cập nhật</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>A. Field trên ticket Jira / Jira Service Management</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Field</th>
+                    <th class="center">Bắt buộc</th>
+                    <th>Giá trị đúng</th>
+                    <th>Nếu điền sai/thiếu</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>A1</td>
+                    <td><strong>Project</strong> (Dự án)</td>
+                    <td class="center yes">✓</td>
+                    <td>Đúng project key đã được COO cấu hình trong quy tắc thưởng (vd <code>SYS</code>,
+                      <code>PROJ</code>)</td>
+                    <td>Không khớp project trong quy tắc → <strong>không quy tắc nào match</strong>, ticket không tạo
+                      thưởng</td>
+                  </tr>
+                  <tr>
+                    <td>A2</td>
+                    <td><strong>Loại Issue</strong> (Issue Type)</td>
+                    <td class="center yes">✓</td>
+                    <td>Đúng loại đã cấu hình trong quy tắc (<code>Task</code>, <code>Bug</code>,
+                      <code>Development</code>, <code>Service Request</code>...)</td>
+                    <td>Sai loại → không match quy tắc, ticket không tạo thưởng</td>
+                  </tr>
+                  <tr>
+                    <td>A3</td>
+                    <td><strong>Trường vai trò</strong> (thường là Assignee, hoặc 1 custom field do COO chỉ định —
+                      xem Mục 4.5)</td>
+                    <td class="center yes">✓</td>
+                    <td>Điền đúng người sẽ nhận thưởng, đúng vào field mà quy tắc đang đọc — hỏi COO/Manager field nào
+                      nếu không chắc</td>
+                    <td>Để trống hoặc điền nhầm người → không tạo được thưởng, hoặc tạo nhầm cho người khác</td>
+                  </tr>
+                  <tr>
+                    <td>A4</td>
+                    <td><strong>Invoice No</strong> (field tên "Invoice" trên ticket)</td>
+                    <td class="center yes">✓</td>
+                    <td>Mã Invoice khớp <strong>chính xác 100%</strong> với "Mã hóa đơn" đã tạo trên CRM (Mục B1).
+                      Nhiều invoice trên 1 ticket: cách nhau bằng khoảng trắng, dấu phẩy, chấm phẩy hoặc xuống dòng —
+                      <strong>tối đa 5 mã</strong></td>
+                    <td>Sai chính tả → hệ thống không tìm ra Invoice, ticket <strong>không có thưởng nào được
+                        tạo</strong>. Quá 5 mã → hệ thống báo lỗi ngay, không tính, yêu cầu tách bớt sang ticket
+                      khác</td>
+                  </tr>
+                  <tr>
+                    <td>A5</td>
+                    <td><strong>Trạng thái ticket</strong> (workflow status)</td>
+                    <td class="center yes">✓</td>
+                    <td>Chuyển đúng sang trạng thái được cấu hình làm "trạng thái kích hoạt" trong quy tắc thưởng
+                      (thường là <code>Done</code>)</td>
+                    <td>Chưa chuyển đúng trạng thái → thưởng <strong>chưa được tạo</strong> (không phải lỗi — chỉ là
+                      chưa tới lúc trigger)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              Field A1–A3, A5 quyết định ticket có <strong>khớp đúng quy tắc thưởng</strong> hay không. Field A4
+              (Invoice No) là cầu nối để hệ thống lấy đúng dữ liệu tài chính từ CRM — sai field này thì dù A1–A3, A5
+              đúng hết, ticket vẫn không ra thưởng.
+            </p>
+
+            <h3>B. Field trên Invoice (CRM Vtiger)</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Field</th>
+                    <th class="center">Bắt buộc</th>
+                    <th>Giá trị đúng</th>
+                    <th>Nếu điền sai/thiếu</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>B1</td>
+                    <td><strong>Mã hóa đơn</strong> (Invoice No.)</td>
+                    <td class="center yes">✓</td>
+                    <td>Trường do CRM <strong>tự sinh</strong>, không tự gõ được — sau khi Invoice được tạo, copy
+                      chính xác mã này sang trường Invoice trên ticket (Mục A4)</td>
+                    <td>Copy sai/thiếu 1 ký tự sang A4 → ticket không tìm ra Invoice, không có thưởng nào được tạo
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>B2</td>
+                    <td><strong>Trạng thái hóa đơn</strong> (Invoice Status)</td>
+                    <td class="center yes">✓</td>
+                    <td>Phải chuyển sang <code>Paid</code> hoặc <code>Done</code> thì thưởng mới được tính</td>
+                    <td>Còn <code>Draft</code>/<code>Pending</code>... → toàn bộ thưởng bị giữ lại (Not Eligible), lý
+                      do hiển thị đúng <code>Invoice status: {trạng thái hiện tại}</code></td>
+                  </tr>
+                  <tr>
+                    <td>B3</td>
+                    <td><strong>Danh sách PO liên quan</strong> (Purchase Order)</td>
+                    <td class="center yes">✓</td>
+                    <td>Ticket có chi phí: điền đúng (các) mã PO thật, nhiều PO phân cách bằng dấu phẩy. Ticket
+                      <strong>không</strong> có chi phí PO: điền hẳn chữ <strong><code>N/A</code></strong> (không để
+                      trống)</td>
+                    <td>Để <strong>trống</strong> (khác "N/A") → cost = 0 nhưng gắn cảnh báo "Missing PO" và có thể bị
+                      giữ lại chờ dữ liệu PO — luôn gõ rõ <code>N/A</code> khi cố ý không có PO</td>
+                  </tr>
+                  <tr>
+                    <td>B4</td>
+                    <td><strong>Tổng tiền hóa đơn</strong> (Grand Total)</td>
+                    <td class="center yes">✓</td>
+                    <td>Số tiền cuối cùng sau thuế/chiết khấu — đây là số dùng làm <strong>Doanh thu</strong> để tính
+                      lợi nhuận</td>
+                    <td>Điền sai/thiếu chiết khấu, thuế → Doanh thu và lợi nhuận tính sai ngay từ gốc</td>
+                  </tr>
+                  <tr>
+                    <td>B5</td>
+                    <td><strong>Loại tiền hóa đơn</strong> (Currency)</td>
+                    <td class="center yes">✓</td>
+                    <td>Đúng loại tiền thực tế của hóa đơn (VND/USD/SGD)</td>
+                    <td>Sai loại tiền → Doanh thu quy đổi ra VND sai</td>
+                  </tr>
+                  <tr>
+                    <td>B6</td>
+                    <td><strong>Chiết khấu (Discount)</strong> — nhập ở dòng hàng (Item), <strong>không</strong> dùng
+                      Overall Discount</td>
+                    <td class="center yes">✓</td>
+                    <td>Điền discount ngay trên <strong>từng dòng hàng (Item)</strong> đang lên hóa đơn</td>
+                    <td>Điền vào <strong>Overall Discount</strong> (chiết khấu tổng ở cuối hóa đơn) → hệ thống
+                      <strong>không biết chiết khấu đó thuộc dịch vụ nào</strong>, doanh thu của đúng dịch vụ được
+                      thưởng sẽ bị tính sai</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="callout warning">
+              <div class="callout-icon">⚠️</div>
+              <div class="callout-content">
+                <strong>Vì sao phải điền discount ở từng dòng hàng, không phải Overall Discount</strong>
+                Hệ thống tính doanh thu <strong>theo từng dịch vụ</strong> trên hóa đơn, không phải theo tổng hóa
+                đơn. Overall Discount chỉ là 1 số giảm giá chung ở cuối hóa đơn, không gắn với dịch vụ cụ thể nào —
+                nên hệ thống không biết phải trừ vào dịch vụ nào và sẽ bỏ qua số đó khi tính doanh thu. Muốn giảm giá
+                được tính đúng, phải nhập ngay trên dòng hàng (Item) của dịch vụ đó.
+              </div>
+            </div>
+
+            <h3>C. Field trên PO (CRM Vtiger)</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Field</th>
+                    <th class="center">Bắt buộc</th>
+                    <th>Giá trị đúng</th>
+                    <th>Nếu điền sai/thiếu</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>C1</td>
+                    <td><strong>Mã PO</strong> (Purchase Order No.)</td>
+                    <td class="center yes">✓</td>
+                    <td>Trường do CRM <strong>tự sinh</strong>, không tự gõ được — sau khi PO được tạo, copy chính
+                      xác mã này vào trường "Danh sách PO liên quan" trên Invoice (Mục B3)</td>
+                    <td>Copy sai/thiếu ở Invoice → hệ thống báo <code>PO {mã} không tìm thấy trong CRM</code>, giữ
+                      lại toàn bộ thưởng</td>
+                  </tr>
+                  <tr>
+                    <td>C2</td>
+                    <td><strong>PO Status</strong></td>
+                    <td class="center yes">✓</td>
+                    <td>Cập nhật đúng tiến độ thật: <code>Created</code> → <code>In review</code> →
+                      <code>Delivered</code>/<code>Paid</code> (hoặc <code>Cancelled</code> nếu hủy)</td>
+                    <td>Xem bảng chi tiết ngay dưới — đây là field ảnh hưởng lớn nhất tới Eligible</td>
+                  </tr>
+                  <tr>
+                    <td>C3</td>
+                    <td><strong>Dòng hàng</strong> (Line items: Product/Service, List Price, Discount, Quantity)</td>
+                    <td class="center yes">✓</td>
+                    <td>Đúng dịch vụ khớp với ticket đang thưởng, đúng đơn giá (List Price − Discount) × Quantity</td>
+                    <td>Sai dòng hàng/đơn giá → chi phí phân bổ sai tỷ trọng khi PO có nhiều dịch vụ</td>
+                  </tr>
+                  <tr>
+                    <td>C4</td>
+                    <td><strong>Cashflow4You liên kết</strong> — Loại giao dịch</td>
+                    <td class="center">Khuyến nghị</td>
+                    <td>Chọn <strong><code>Outgoing</code></strong> (không chọn <code>Incoming</code> — đó là tiền
+                      khách trả vào)</td>
+                    <td>Chọn nhầm hoặc bỏ trống → hệ thống không nhận diện được đây là khoản trả NCC</td>
+                  </tr>
+                  <tr>
+                    <td>C5</td>
+                    <td><strong>Cashflow4You liên kết</strong> — Liên kết tới</td>
+                    <td class="center">Khuyến nghị</td>
+                    <td>Gắn đúng <strong>PO đang trả tiền</strong> (không phải Invoice)</td>
+                    <td>Gắn sai PO → chi phí bị cộng nhầm hoặc không ghi nhận cho đúng PO</td>
+                  </tr>
+                  <tr>
+                    <td>C6</td>
+                    <td><strong>Cashflow4You liên kết</strong> — Số tiền thực trả + Loại tiền thực nhận</td>
+                    <td class="center">Khuyến nghị</td>
+                    <td>Điền đúng số tiền đã chuyển cho NCC và đúng loại tiền (USD/SGD/VND)</td>
+                    <td>Sai loại tiền → chi phí quy đổi VND sai hoàn toàn</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h4>Chi tiết C2 — PO Status quyết định thưởng có bị giữ lại hay không</h4>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>PO Status</th>
+                    <th>Ảnh hưởng đến thưởng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Delivered</strong> hoặc <strong>Paid</strong></td>
+                    <td>✅ Đủ tin cậy — chi phí được tính, thưởng có thể tính/duyệt bình thường</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Created</strong> hoặc <strong>In review</strong></td>
+                    <td>⛔ <strong>Toàn bộ thưởng của Invoice bị giữ lại</strong> (chưa cho duyệt), lý do hiển thị
+                      đúng <code>PO {mã} đang ở trạng thái {trạng thái}</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Cancelled</strong></td>
+                    <td>✅ Không cần làm gì thêm — hệ thống tự hiểu chi phí PO này = 0 và <strong>không</strong> giữ
+                      thưởng lại</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="callout danger">
+              <div class="callout-icon">🚫</div>
+              <div class="callout-content">
+                <strong>Chỉ cần 1 PO chưa xong là giữ lại cả Invoice</strong>
+                Chỉ cần <strong>1 PO</strong> trong số nhiều PO của cùng Invoice còn ở <code>Created</code>/<code
+                  >In review</code
+                >
+                là <strong>toàn bộ</strong> thưởng của Invoice đó bị giữ lại, dù các PO khác đã xong — phải cập nhật
+                đủ hết PO liên quan, không chỉ 1 cái. Nếu PO đã Delivered/Paid nhưng chưa có dòng Cashflow nào
+                (C4–C6), hệ thống tự động dùng tạm giá niêm yết trên PO (không bị giữ lại thưởng, nhưng số tiền có
+                thể chưa sát thực tế).
+              </div>
+            </div>
+
+            <h3>Kiểm tra "Đủ điều kiện" (Eligible) sau khi các field trên đã điền</h3>
+            <p>
+              Vào <strong>Thưởng Cá Nhân</strong> / <strong>Thưởng Nhóm</strong>, mở chi tiết khoản thưởng — xem nhãn
+              <strong>"Đủ điều kiện tính thưởng"</strong>:
+            </p>
+            <div class="status-grid">
+              <div class="status-item">
+                <div class="status-dot approved"></div>
+                <div>
+                  <h5>🟢 Đủ điều kiện (Eligible)</h5>
+                  <p>Mọi field ở Mục A/B/C đã sẵn sàng, số tiền hiển thị có thể duyệt bình thường.</p>
+                </div>
+              </div>
+              <div class="status-item">
+                <div class="status-dot rejected"></div>
+                <div>
+                  <h5>🔴 Chưa đủ điều kiện (Not Eligible)</h5>
+                  <p>Kèm dòng "Lý do: ..." nêu chính xác field nào đang chặn.</p>
+                </div>
+              </div>
+            </div>
+
+            <h4>Bảng tra lý do "Chưa đủ điều kiện" → field cần sửa</h4>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Lý do hiển thị</th>
+                    <th>Field cần sửa</th>
+                    <th>Cách xử lý</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>Invoice status: {trạng thái}</code> (khác Paid/Done)</td>
+                    <td>B2</td>
+                    <td>Kế toán cập nhật trạng thái Invoice khi đã thu tiền/hoàn tất, rồi bấm <strong>Reload</strong>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>PO {mã} đang ở trạng thái Created</code> / <code>In review</code></td>
+                    <td>C2</td>
+                    <td>Cập nhật PO Status sang <code>Delivered</code>/<code>Paid</code> khi thực tế đã giao/thanh
+                      toán, rồi bấm <strong>Reload</strong></td>
+                  </tr>
+                  <tr>
+                    <td><code>PO {mã} không tìm thấy trong CRM</code></td>
+                    <td>B3 hoặc C1</td>
+                    <td>Sửa lại đúng mã PO trên Invoice, rồi bấm <strong>Reload</strong></td>
+                  </tr>
+                  <tr>
+                    <td><code>No purchase orders found..., waiting for valid PO data</code></td>
+                    <td>B3</td>
+                    <td>Điền lại <code>N/A</code> nếu cố ý không có PO, hoặc điền đúng mã PO thật (đang bị để trống)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>Purchase orders failed to fetch from CRM</code></td>
+                    <td>C1</td>
+                    <td>Lỗi tạm thời hoặc PO đã bị xóa — thử <strong>Reload</strong> lại sau vài phút, báo Admin nếu
+                      vẫn lỗi</td>
+                  </tr>
+                  <tr>
+                    <td>Ticket không có thưởng nào xuất hiện</td>
+                    <td>A4</td>
+                    <td>Kiểm tra lại đúng mã Invoice trên ticket, sửa rồi kích hoạt lại (xem Mục 4.9)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="callout info">
+              <div class="callout-icon">ℹ️</div>
+              <div class="callout-content">
+                <strong>Cách hệ thống kiểm tra lại</strong>
+                Hệ thống <strong>không tự động quét lại</strong> khi CRM thay đổi. Sau khi đã sửa field trên CRM, vào
+                <strong>Thưởng Nhóm</strong> và bấm nút <strong>"Reload"</strong> trên đúng ticket đó để hệ thống
+                tính lại theo dữ liệu mới nhất.
+              </div>
+            </div>
+
+            <h3>Checklist nhanh trước khi gửi COO duyệt</h3>
+            <ul style="margin: 12px 0 16px 20px; color: var(--text-secondary); font-size: 14px; line-height: 1.9">
+              <li>☐ A1–A3, A5: Project/Issue Type/Vai trò/Trạng thái ticket đúng theo quy tắc thưởng</li>
+              <li>☐ A4 = B1: mã Invoice trên ticket khớp 100% với mã hóa đơn trên CRM</li>
+              <li>☐ B2 = <code>Paid</code> hoặc <code>Done</code></li>
+              <li>☐ B3 điền đúng mã PO thật, hoặc <code>N/A</code> nếu cố ý không có</li>
+              <li>☐ B6: chiết khấu điền ở từng dòng hàng (Item), <strong>không</strong> dùng Overall Discount</li>
+              <li>☐ C2: mọi PO liên quan = <code>Delivered</code>/<code>Paid</code> (hoặc chủ đích để
+                <code>Cancelled</code>)</li>
+              <li>☐ C4–C6: đã ghi Cashflow <code>Outgoing</code> đúng PO, đúng loại tiền — nếu PO đã có thanh toán
+                thực tế</li>
+              <li>☐ Nhãn hiển thị <strong>"Đủ điều kiện"</strong> trước khi gửi yêu cầu duyệt cho COO</li>
+            </ul>
           </div>
 
           <!-- ════════════════════════════════ -->
