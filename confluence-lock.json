@@ -1,0 +1,223 @@
+{
+  "lockfile_version": 2,
+  "last_export": "2026-10-22T08:46:54.240278+00:00",
+  "orgs": {
+    "https://globallinkasiaconsulting.atlassian.net": {
+      "spaces": {
+        "MSD": {
+          "pages": {
+            "5438046279": {
+              "title": "Project Overview_Data Sync_20/5/2026",
+              "version": 4,
+              "export_path": "Marketing Service Desk/Marketing Service Desk/Marcoms MSD 2026/Dự án Đồng bộ hệ thống_Data Sync - 05.2026/Project Overview_Data Sync_20_5_2026.md",
+              "attachments": {
+                "att5438603302": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/b1067a19-3d2a-4f66-810d-67a04d66d266.png"
+                },
+                "att5438242870": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/5ca05306-f4db-4cac-8117-9e441ff77e16.png"
+                },
+                "att5438079015": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/6a208b8d-028d-45b1-b970-965b8d4ef4d2.png"
+                }
+              }
+            },
+            "5438406672": {
+              "title": "Báo cáo cài đặt Service ID_Data Sync_20/5/2026",
+              "version": 2,
+              "export_path": "Marketing Service Desk/Marketing Service Desk/Marcoms MSD 2026/Dự án Đồng bộ hệ thống_Data Sync - 05.2026/Báo cáo cài đặt Service ID_Data Sync_20_5_2026.md",
+              "attachments": {
+                "att5438406709": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/b28a49ee-f50b-4b36-985d-9158ecc34374.png"
+                },
+                "att5438111782": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/31eabb24-c3a2-4c4c-8128-95f7c7972983.png"
+                },
+                "att5438111769": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/a1da00c9-fe12-4085-8dc3-4b772f16f90b.png"
+                },
+                "att5438406685": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/272c964d-d5f0-454e-a812-654256b5abbf.png"
+                },
+                "att5437882393": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/f3cbbdb2-b174-4651-ac8f-a9041d57a64f.png"
+                }
+              }
+            },
+            "5448269852": {
+              "title": "[Review] Tổng hợp đánh giá - Tool Viết bài tự động - 02.06.2026",
+              "version": 31,
+              "export_path": "Marketing Service Desk/Marketing Service Desk/Marcoms MSD 2026/Phát triển tool viết bài 05.2026/_Review_ Tổng hợp đánh giá - Tool Viết bài tự động - 02.06.2026.md",
+              "attachments": {
+                "att5499125816": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/bb2e7cc7-8ecf-457f-9d5f-7115c3313014.png"
+                },
+                "att5499060237": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/04cc3ef2-5fd2-411f-89c8-3636e2217737.png"
+                },
+                "att5463474194": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/eec6bb75-f8da-40f5-bbfd-dcdd5d34d94d.png"
+                },
+                "att5461770247": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/7b13f049-842d-43ef-bf09-da0ff5ee7c93.png"
+                },
+                "att5461606409": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/98de8125-5c19-47f6-b1d2-8bcaa3949e53.png"
+                },
+                "att5453250592": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/fffabb64-bd6f-4912-8c20-137f054d83cd.png"
+                },
+                "att5453447203": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/0a248489-20c6-4ed2-97df-7ca4871792eb.png"
+                },
+                "att5453938690": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/1ef3e3a2-14ea-428d-a98b-e9ccb876d9de.png"
+                },
+                "att5453480000": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/849908ec-f9bf-47fd-8907-7c4b839816cc.png"
+                },
+                "att5453119535": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/60421e40-1811-4f9c-bad2-c00004c1675e.png"
+                },
+                "att5453742106": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/f158ea2d-bee3-4ee7-96d9-defd0ec987d6.png"
+                },
+                "att5453479989": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/cc8fc2a9-9d08-48bf-952a-14dbe25981d7.png"
+                },
+                "att5453840399": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/dcaee4c6-dfdc-456e-acdf-820765ae3e7c.png"
+                },
+                "att5453611033": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/ba1378ec-13e9-47aa-a98d-160902839f51.png"
+                },
+                "att5453611026": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/d6f817a3-cc3c-4853-8e7d-82a0b7984fd2.png"
+                },
+                "att5453250574": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/4cc1baa1-4734-4a1a-88e2-01fd5c8e63cc.png"
+                },
+                "att5453250567": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/69ad1ac6-8dfb-4f82-becb-281c02e7a68d.png"
+                },
+                "att5453545476": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/84d74329-9cfc-4256-ba2a-a8c2d2191e90.png"
+                },
+                "att5453021191": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/8ceae3d6-c6c0-413e-a2ad-175d9a6976d1.png"
+                },
+                "att5453152258": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/0eaba060-94cc-465b-ab78-b41d5ef12c34.png"
+                },
+                "att5453217797": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/fbb7fa0a-483d-47e8-a819-af6351cc3999.png"
+                }
+              }
+            },
+            "5470748698": {
+              "title": "Data mart Quotation-Jira-CRM_Data Sync_17/6/2026",
+              "version": 2,
+              "export_path": "Marketing Service Desk/Marketing Service Desk/Marcoms MSD 2026/Dự án Đồng bộ hệ thống_Data Sync - 05.2026/Data mart Quotation-Jira-CRM_Data Sync_17_6_2026.md",
+              "attachments": {}
+            },
+            "5537988668": {
+              "title": "[Propose] Phát triển GLAC Data IQ - Data Mart - 19.08.2026",
+              "version": 2,
+              "export_path": "Marketing Service Desk/Marketing Service Desk/Marcoms MSD 2026/Dự án Đồng bộ hệ thống_Data Sync - 05.2026/Data mart Quotation-Jira-CRM_Data Sync_17_6_2026/_Propose_ Phát triển GLAC Data IQ - Data Mart - 19.08.2026.md",
+              "attachments": {
+                "att5538676823": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/db2b96b6-ab40-474f-a000-b54ff10a882b.mp4"
+                },
+                "att5538119836": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/22e87cdb-2c10-4cfb-9417-1fedb9db5034.png"
+                },
+                "att5538480182": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/86a4665a-ff28-4c25-a7c6-be488caf48d3.png"
+                }
+              }
+            },
+            "5560238091": {
+              "title": "[BRD] Web Tracking Tool & Quotation History - Marketing Module trên Candy - 23.09.2026",
+              "version": 9,
+              "export_path": "Marketing Service Desk/Marketing Service Desk/Marcoms MSD 2026/Dự án Đồng bộ hệ thống_Data Sync - 05.2026/Data mart Quotation-Jira-CRM_Data Sync_17_6_2026/_BRD_ Web Tracking Tool & Quotation History - Marketing Module trên Candy - 23.09.2026.md",
+              "attachments": {
+                "att5573869707": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/fba20ddc-623f-4e6d-9131-b75ebf96f974.html"
+                },
+                "att5572952164": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/1b166738-4850-422f-8ae3-ddd3ce56c582.png"
+                },
+                "att5572919401": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/73ebbad5-16e0-41d4-8419-6ff1aaac7445.png"
+                },
+                "att5570527287": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/ab5e35ed-c92b-4d1e-adce-35a39a1e17d5.png"
+                },
+                "att5571018762": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/95ab7165-78a4-411a-95cf-b0fcc0b63032.png"
+                },
+                "att5569249343": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/d7c7eb46-3b9b-40f7-9b61-ea4473573d1b.png"
+                },
+                "att5561319534": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/072b0969-9db0-4ba1-b1e3-376f1824296c.png"
+                },
+                "att5560729689": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/1df72711-c9cd-46c4-bd1e-15073229dd3e.png"
+                },
+                "att5561548864": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/4e194b21-130e-42cc-a452-052fee2d4176.png"
+                },
+                "att5561319517": {
+                  "version": 1,
+                  "path": "Marketing Service Desk/attachments/a3d20dd5-4453-4a36-b971-c843f185d259.png"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
